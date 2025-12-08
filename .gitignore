@@ -1,0 +1,21 @@
+# Java - gradle
+*.class
+*.jar
+galassifier/build/
+galassifier/.gradle/
+galassifier/bin/
+
+# Python
+__pycache__/
+*.pyc
+galassifier-ml/venv/
+galassifier-ml/galaxy_tests/
+*.egg-info/
+
+# Node.js / React
+galassifier-client/
+
+# OS / IDE
+.DS_Store
+galassifier/.vscode/
+*.log
