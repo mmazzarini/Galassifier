@@ -13,7 +13,7 @@ galaxy_types = ['Uncertain', 'Spiral', 'Elliptical']
 def predict_galaxy_type(image_path, model_path):
     try:
         #read image and set it to proper format and size
-        image = Image.open(image_path).convert('L').resize((128,128))
+        image = Image.open(image_path).convert('L').resize((28,28))
         image = np.array(image).astype('float32')/255.0
         image = np.expand_dims(image, axis=0)  # Add batch dimension
         #load pretrained ML model

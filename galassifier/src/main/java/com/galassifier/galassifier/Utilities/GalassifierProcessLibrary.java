@@ -3,6 +3,7 @@ package com.galassifier.galassifier.Utilities;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import com.galassifier.galassifier.Exceptions.PythonRuntimeException;
 
@@ -21,17 +22,22 @@ public class GalassifierProcessLibrary {
     }
 
 
-    public static BufferedReader HandleStdInput(Process process)  
+    public static StringBuilder HandleStdInput(Process process)  
     {   
-        BufferedReader stdInput = null;
-        if(process != null)
-        {
-            stdInput = new BufferedReader(
-            new InputStreamReader(process.getInputStream()));
+        StringBuilder output = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()) )){
+            String line;
+            while ((line = reader.readLine()) != null){
+                output.append(line).append(System.lineSeparator());
+            }
         }
-        return stdInput;
-    }
+        catch (IOException e){
+            throw new RuntimeException("[HandleStdInput] Cannot read process log with output error: " + e);
+        }
 
+        return output;
+    }
+    
     public static int HandleWaitForProcess(Process process)
     {
         int exitCode = 0;
