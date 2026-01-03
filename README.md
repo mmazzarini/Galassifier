@@ -14,4 +14,4 @@ The most noticeable feature is a ML model.
 - The python script is called locally via process building/handling java libraries
 
 CLIENT
-- #TBD Should be some app in node.js / react
+- #TBD Should be some app in js / react
