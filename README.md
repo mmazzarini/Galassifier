@@ -2,7 +2,7 @@ Galassifier is a RESTful application that predicts the type of a galaxy to the u
 
 SERVER
 The server is a Java springboot application.
-- it employs RESTful APIs to deal with client POST request to classify an image
+- it employs REST APIs to deal with client POST request to classify an image
 - it calls a local python process to classify the galaxy and waits for its response
 - returns the response in a HTTP/JSON-compatible format
 
@@ -14,4 +14,4 @@ The most noticeable feature is a ML model.
 - The python script is called locally via process building/handling java libraries
 
 CLIENT
-- #TBD Should be some app in js / react
+- #TBD Should be some app in vue.js
