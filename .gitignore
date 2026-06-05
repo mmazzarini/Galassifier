@@ -12,8 +12,8 @@ galassifier-ml/venv/
 galassifier-ml/galaxy_tests/
 *.egg-info/
 
-# Node.js / React
-galassifier-client/
+# vue.js
+# galassifier-client/
 
 # OS / IDE
 .DS_Store
