@@ -1,0 +1,152 @@
+;Appunti per testare la risposta del server Django con una richiesta POST da JavaScript. Il server risponde con un messaggio JSON, che viene poi visualizzato nella pagina web.
+;Utilizzarlo ad esempio da browser console, dopo aver avviato il server Django e aver navigato alla pagina principale (http://localhost:8000/).
+
+fetch("/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    test: "Hi I am the user"
+  })
+})
+.then(resp => resp.json())
+.then(data => {
+  document.body.innerHTML = `
+    <h1>Message from server</h1>
+    <p>${data.message}</p>
+  `;
+})
+.catch(err => console.error("Error:", err));
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+This fetch is just for testing purposes:
+I test here sending a classification req for a galaxy
+I needed it to test the server response.
+
+fetch("/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    test: "Hi I am the user"
+  })
+})
+.then(resp => resp.json())
+.then(data => {
+  document.body.innerHTML = `
+    <h1>Upload an Image</h1>
+
+    <div id="dropZone">
+      Drag and drop an image here<br />
+      or click to choose a file
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*" style="display:none;" />
+    <img id="preview" alt="Preview" style="max-width:300px; display:none; margin-top:20px;" />
+    <br />
+    <button id="sendBtn">Send</button>
+
+    <div id="result"></div>
+  `;
+
+  const dropZone = document.getElementById("dropZone");
+  const fileInput = document.getElementById("fileInput");
+  const preview = document.getElementById("preview");
+  const sendBtn = document.getElementById("sendBtn");
+  const result = document.getElementById("result");
+
+  let selectedFile = null;
+
+  function setFile(file) {
+    if (!file || !file.type.startsWith("image/")) {
+      result.textContent = "Please select a valid image.";
+      return;
+    }
+
+    selectedFile = file;
+    result.textContent = "";
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.src = e.target.result;
+      preview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  dropZone.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    setFile(file);
+  });
+
+  dropZone.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    dropZone.style.background = "#f3f3f3";
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.style.background = "";
+  });
+
+  dropZone.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dropZone.style.background = "";
+
+    const file = event.dataTransfer.files[0];
+    setFile(file);
+  });
+
+  sendBtn.addEventListener("click", async () => {
+    if (!selectedFile) {
+      result.textContent = "No image selected.";
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+
+    try {
+      const response = await fetch("/process_galaxy_image/", {
+        method: "POST",
+        body: formData
+      });
+
+      const responseData = await response.json();
+      result.textContent = "Server response: " + JSON.stringify(responseData);
+    } catch (err) {
+      console.error(err);
+      result.textContent = "Upload failed.";
+    }
+  });
+})
+.catch(err => console.error("Error:", err));
+
+
+
+
+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+    #if I need a core tick function that
+    # as the universal gmt time flows, it checks if the midnight has been passed
+    # and then resets user credits.
+    # how to do it'
+    # I can use a cron job that runs every day at midnight and resets the user credits.
+    # or I can use a background thread that runs every day at midnight and resets the user
+    # credits. I think the cron job is better 
+    #   because it is more reliable and it does not consume resources when the server is running.
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+scrivo una bozza di js per fare il login.
+- homepage - > fetch -> login page 
+- seconda fetch: -> creo user account
+
