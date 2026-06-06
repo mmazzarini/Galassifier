@@ -14,4 +14,19 @@ The most noticeable feature is a ML model.
 - The python script is called locally via process building/handling java libraries
 
 CLIENT
-- #TBD Should be some app in vue.js
+- Client is an app in vue.js. The client:
+- navigates through pages via router calls
+- sends POST/GET requests to Server, to allow interactions with the core backend services.
+
+
+EXAMPLE USAGE (In dev environment - vscode):
+From 2 separate terminals:
+- launch server with "python manage.py runserver"
+- launch client with "npm run dev"
+- enjoy :))
+
+TODOS:
+- dock and run server app on some platform (AWS for instance)
+- wrap client, when done, in a proper framework to distribute the executable to platforms (e.g. it would be nice to have the app on the phone or on desktop)
+- improvements to ML: ablation test, production and postprod pipeline on ML-side.
+
