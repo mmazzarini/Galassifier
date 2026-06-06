@@ -53,7 +53,7 @@ Start the server:
 Start the client:
 > npm run dev
 
-Then open the client in the browser and upload and follow the app UI flow to upload galaxy image.
+Then open the client in the browser and follow the app UI flow to upload galaxy image.
 
 ## TODO
 
