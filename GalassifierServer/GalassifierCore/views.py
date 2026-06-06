@@ -26,9 +26,11 @@ def ProcessGalaxyImage(request):
     if(request.method != "POST"):
         #todo : process the image and return the result as a JSON object.
         #the request should contain the image in base64 format, and (optional for now, I'll decide later) the name of the galaxy to be processed.
-        return JsonResponse({"message": "Invalid request method: expected POST."}, status=400)
+        return JsonResponse({"message": "Invalid request method: expected POST."}, status=550)
     if("image" not in request.FILES):
-        return JsonResponse({"message": "Invalid request body: missing 'image' field."}, status=400)
+        return JsonResponse({"message": "Invalid request body: missing 'image' field."}, status=575)
+
+    print("Logging: can proceed to image")
 
     my_image = request.FILES["image"]
 

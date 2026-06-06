@@ -1,15 +1,17 @@
 <script setup>
 import { ref } from 'vue'
+import * as Strings from '../utilities/strings.js'
+import { useRouter } from 'vue-router'
 
-const galaxyName = ref('Andromeda')
-const classification = ref('Spiral')
+const galaxyName = ref('CIAO SO')
+const classification = ref('GALAXY CARD DE PROVA')
 
-const updateClassification = (newClass) => {
-  classification.value = newClass
-}
 </script>
 
 <template>
+
+  // I need a button to 
+
   <div class="galaxy-card">
     <h2><strong>{{ galaxyName }}</strong></h2>
     <p>Classification: <strong>{{ classification }}</strong></p>
