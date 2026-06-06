@@ -1,10 +1,10 @@
 Galassifier is a RESTful application that predicts the type of a galaxy to the user that inputs a galaxy image.
 
 SERVER
-The server is a Java springboot application.
+The server is a python django application.
 - it employs REST APIs to deal with client POST request to classify an image
-- it calls a local python process to classify the galaxy and waits for its response
-- returns the response in a HTTP/JSON-compatible format
+- it calls a local python module to classify the galaxy and waits for its response
+- returns the response in a JSON format
 
 ML-DEEP LEARNING
 The most noticeable feature is a ML model.
@@ -29,4 +29,4 @@ TODOS:
 - dock and run server app on some platform (AWS for instance)
 - wrap client, when done, in a proper framework to distribute the executable to platforms (e.g. it would be nice to have the app on the phone or on desktop)
 - improvements to ML: ablation test, production and postprod pipeline on ML-side.
-
+- additional service to include: user profile management, credits management...
