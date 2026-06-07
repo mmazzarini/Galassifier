@@ -36,7 +36,7 @@ def ProcessGalaxyImage(request):
 
     #now we pass the image to the galassifier-ml, and we return the result as a JSON object.
     result = gClassifier.predict_galaxy_type(my_image, MODEL_FULL_PATH)
-    return JsonResponse({"message": f"The galaxy type is: {result}"})
+    return JsonResponse({"galaxyType": f"{result}"})
         
 # views Method to try to log User in the app.
 @csrf_exempt

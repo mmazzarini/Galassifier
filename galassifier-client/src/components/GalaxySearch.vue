@@ -44,16 +44,22 @@ const SendClassificationRequest = async () => {
         method: 'POST',
         body: formData
       })
+
+      console.log("Response received from server");
+
       const data = await response.json();
-      router.push('/galaxy-card', 
-          {    
-          name: 'GalaxyResult',
-            state: {
-            result: data
-            }
-          }
-      );
+
+      sessionStorage.setItem('galaxyResult', JSON.stringify(data))
+      
+      await router.push(
+        {
+          name: 'GalaxyResultCard',
+        }
+      )
+
+      console.log("Pushed to result");
     }
+    
     catch(error){
       console.error(Strings.CLASSIFICATION_ERROR, error);
     }
@@ -67,30 +73,33 @@ const SendClassificationRequest = async () => {
 </script>
 
 <template>
+  <main class="galaxy-search-page">
+    <div class="galaxy-card">
+      <h2><strong>{{ galaxyName }}</strong></h2>
+      <p>Classification: <strong>{{ classification }}</strong></p>
+    </div>
 
-  <div class="galaxy-card">
-    <h2><strong>{{ galaxyName }}</strong></h2>
-    <p>Classification: <strong>{{ classification }}</strong></p>
-    
-    <button @click="updateClassification('Elliptical')">
-      Mark as Elliptical
+    <div
+      class="drop-zone"
+      @dragover.prevent="handleDragOver"
+      @dragleave.prevent="handleDragLeave"
+      @drop.prevent="handleDrop"
+    >
+      <p class="drop-zone-title">
+        Drag and drop an image here, or click to select a file
+      </p>
+
+      <input type="file" ref="fileInput" class="hidden" />
+    </div>
+
+    <button
+      class="send-button"
+      :disabled="!isFileDropped"
+      @click="SendClassificationRequest"
+    >
+      Send request
     </button>
-  </div>
-
-  <div class="drop-zone" @click="triggerFileInput" @dragover.prevent="handleDragOver" @dragleave.prevent="handleDragLeave" @drop.prevent="handleDrop"
-  >
-    <p class="drop-zone-title">Drag and drop an image here, or click to select a file</p>
-    <input type="file" ref="fileInput" class="hidden" @change="handleFileSelect" /> 
- </div>
-
-<button
-  class="send-button"
-  :disabled="!isFileDropped"
-  @click="SendClassificationRequest()"
->
-  Send request
-</button>
-
+  </main>
 </template>
 
 <style scoped>
