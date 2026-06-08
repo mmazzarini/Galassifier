@@ -7,8 +7,14 @@ import { computed } from 'vue'
 console.log('GalaxyResultCard setup started')
 const rawResult = sessionStorage.getItem('galaxyResult')
 const result = rawResult ? JSON.parse(rawResult) : {}
+const MoreClassificationsString = Strings.MORE_CLASSIFICATION_STRING;
+const router = useRouter();
 
-//DEBUG ATTEMPT
+function ClassifyMore()
+{
+    router.push('/galaxy-search');
+}
+
 const galaxytype = computed(() => {
   return result.galaxyType ?? result.classification ?? 'Unknown'
 })
@@ -24,8 +30,8 @@ console.log('Galaxy result:', result)
       <strong>{{ galaxytype }}</strong>
     </p>
 
-    <button>
-      Classify more!!
+    <button class="more-button" @click="ClassifyMore" >
+      {{MoreClassificationsString}}
     </button>
   </div>
 </template>
@@ -45,5 +51,17 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.more-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  min-height: 36px;
+  font-size: 14px;
+  line-height: 1;
+  color: white !important;
+  background: #007bff;
 }
 </style>

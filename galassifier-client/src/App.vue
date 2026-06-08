@@ -1,6 +1,5 @@
 <script setup>
 import GalaxyCard from './components/GalaxyCard.vue'
-import EntryForm from './components/EntryForm.vue'
 
 </script>
 

@@ -1,21 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Profile from '../components/Profile.vue'
 import GalaxySearch from '../components/GalaxySearch.vue'
 import GalaxyResultCard from '../components/GalaxyResultCard.vue'
-import EntryForm from '../components/EntryForm.vue'
+import EntryPage from '../components/EntryPage.vue'
+
 
 const routes = [
 
     {
         path: '/',
         name: 'Home',
-        component: EntryForm
+        component: EntryPage
     },    
-    {
-        path: '/profile',
-        name: 'Profile',
-        component: Profile
-    },
     {
         path: '/galaxy-search',
         name: 'GalaxySearch',
@@ -25,7 +20,7 @@ const routes = [
         path: '/galaxy-result-card',
         name: 'GalaxyResultCard',
         component: GalaxyResultCard
-    }
+    },
 ]
 
 const router = createRouter({

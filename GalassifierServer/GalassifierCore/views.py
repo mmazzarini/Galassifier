@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from GalassifierServer.settings import MODEL_FULL_PATH
 import GalassifierServer.ML.galaxyClassifier as gClassifier
 from GalassifierServer.COREUSER.loginFunctions import *
-from .models import UserProfile, GalaxyInformation
+from .models import UserProfile
 
 # Create your views here.
 
@@ -37,17 +37,8 @@ def ProcessGalaxyImage(request):
     #now we pass the image to the galassifier-ml, and we return the result as a JSON object.
     result = gClassifier.predict_galaxy_type(my_image, MODEL_FULL_PATH)
 
-    new_galaxy = GalaxyInformation.objects.create(
-        user_profile=None,
-        name="Pippo",
-        galaxyType=result
-    )
-
     return JsonResponse(
-        {"galaxyType": f"{new_galaxy.galaxyType}",
-         "galaxy_id" : new_galaxy.id, 
-         "galaxy_name": new_galaxy.name
-         })
+        {"galaxyType": f"{result}"})
         
 # views Method to try to log User in the app.
 @csrf_exempt

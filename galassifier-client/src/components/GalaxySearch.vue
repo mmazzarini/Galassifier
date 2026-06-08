@@ -3,10 +3,9 @@ import { ref } from 'vue'
 import * as Strings from '../utilities/strings.js'
 import { useRouter } from 'vue-router'
 
-const galaxyName = ref('Andromeda')
-const classification = ref('Spiral')
 const isDrag = ref(false);
 const isFileDropped = ref(false);
+const isFileSelected = ref(false);
 const file =ref(null)
 const router = useRouter()
 
@@ -15,6 +14,12 @@ function handleDragOver() {
 }
 function handleDragLeave() {
   isDrag.value = false;
+}
+
+function SetSelectedFile(event)
+{
+  file.value = event.target.files[0]
+  isFileSelected.value = true;
 }
 
 function handleDrop(event) {
@@ -31,7 +36,7 @@ function handleDrop(event) {
 }
 
 const SendClassificationRequest = async () => {
-  if(isFileDropped.value)
+  if(file.value)
   {
     try{
       //Send classifcation request to backend
@@ -75,8 +80,7 @@ const SendClassificationRequest = async () => {
 <template>
   <main class="galaxy-search-page">
     <div class="galaxy-card">
-      <h2><strong>{{ galaxyName }}</strong></h2>
-      <p>Classification: <strong>{{ classification }}</strong></p>
+
     </div>
 
     <div
@@ -89,12 +93,12 @@ const SendClassificationRequest = async () => {
         Drag and drop an image here, or click to select a file
       </p>
 
-      <input type="file" ref="fileInput" class="hidden" />
+      <input type="file" ref="fileInput" class="hidden" @change="SetSelectedFile" />
     </div>
 
     <button
       class="send-button"
-      :disabled="!isFileDropped"
+      :disabled="!isFileDropped && !isFileSelected"
       @click="SendClassificationRequest"
     >
       Send request
@@ -141,11 +145,6 @@ button {
 .drop-zone.hover {
   background: #bee3f8;
   border-color: #63b3ed;
-}
-
-.drop-zone.error {
-  background: #fed7d7;
-  border-color: #f56565;
 }
 
 .drop-zone-title {

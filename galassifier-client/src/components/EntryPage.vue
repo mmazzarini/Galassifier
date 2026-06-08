@@ -6,7 +6,14 @@ import { useRouter } from 'vue-router'
 
 const WelcomeMessage = ref(Strings.WELCOME_MESSAGE)
 const InstructionMessage = ref(Strings.INSTRUCTION_MESSAGE)
+const AppInfoMessage = ref(Strings.INFORMATION_APP_MESSAGE)
+const ClickToStartMessage = ref(Strings.START_STRING)
 const router = useRouter()
+
+function goToGalaxyClassification()
+{
+    router.push('/galaxy-search')
+}
 
 </script>
 
@@ -15,11 +22,8 @@ const router = useRouter()
     <h2 class="welcome-message"><strong>{{ WelcomeMessage }}</strong></h2>
     <p><strong>{{ InstructionMessage }}</strong></p>
     
-    <button @click="">
-      Click to proceed to Profile Page
-    </button>
-    <button @click="">
-      Click to proceed to Galaxy Classification
+    <button @click="goToGalaxyClassification()">
+      <p>{{ ClickToStartMessage }}</p>
     </button>
   </div>
 </template>
@@ -31,13 +35,6 @@ welcome-message {
 </style>
 
 <style scoped>
-.galaxy-card {
-  border: 2px solid #333;
-  color: rgb(0, 0, 0);
-  padding: 15px;
-  border-radius: 8px;
-  background: #f5f5f5;
-}
 
 button {
   background: #007bff;
@@ -47,5 +44,6 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+
 </style>
 
