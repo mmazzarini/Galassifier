@@ -29,14 +29,13 @@ def predict_galaxy_type(image_path, model_path):
         my_model = lazy_model_load(model_path)
         #prediction
         predictions = my_model.predict(image)
-        predicted_galaxy_type_index = np.argmax(predictions[0])
+        predicted_galaxy_type_index = int(np.argmax(predictions[0]))
         confidence = float(predictions[0][predicted_galaxy_type_index])
         print(f"Predicted galaxy type index: {predicted_galaxy_type_index}", file=sys.stderr)
         return (galaxy_types[predicted_galaxy_type_index], confidence)
     except Exception as e:
         print(f"error: {e}", file=sys.stderr)
-        return ('Error', -1)
-
+        raise
 # We will execute this when calling it from command line, e.g. via an external exe.
 if __name__ == "__main__":
 
