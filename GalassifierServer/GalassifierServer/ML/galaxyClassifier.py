@@ -30,8 +30,9 @@ def predict_galaxy_type(image_path, model_path):
         #prediction
         predictions = my_model.predict(image)
         predicted_galaxy_type_index = np.argmax(predictions)
+        confidence = float(predictions[0][predicted_galaxy_type_index])
         print(f"Predicted galaxy type index: {predicted_galaxy_type_index}", file=sys.stderr)
-        return galaxy_types[predicted_galaxy_type_index]
+        return (galaxy_types[predicted_galaxy_type_index], confidence)
     except Exception as e:
         print(f"error: {e}", file=sys.stderr)
         #sys.exit(1) todo refactor this
