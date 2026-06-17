@@ -10,6 +10,15 @@ import tensorflow as tf
 
 galaxy_types = ['Uncertain', 'Spiral', 'Elliptical']
 
+model = None
+
+def lazy_model_load(in_model_path):
+    global model
+    if model is None:
+        print("Loading galaxy classifier model...") 
+        model = tf.keras.models.load_model(in_model_path)
+    return model
+
 def predict_galaxy_type(image_path, model_path):
     try:
         #read image and set it to proper format and size
@@ -17,9 +26,9 @@ def predict_galaxy_type(image_path, model_path):
         image = np.array(image).astype('float32')/255.0
         image = np.expand_dims(image, axis=0)  # Add batch dimension
         #load pretrained ML model
-        model = tf.keras.models.load_model(model_path)
+        my_model = lazy_model_load(model_path)
         #prediction
-        predictions = model.predict(image)
+        predictions = my_model.predict(image)
         predicted_galaxy_type_index = np.argmax(predictions)
         print(f"Predicted galaxy type index: {predicted_galaxy_type_index}", file=sys.stderr)
         return galaxy_types[predicted_galaxy_type_index]
