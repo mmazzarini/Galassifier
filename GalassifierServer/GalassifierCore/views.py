@@ -26,16 +26,26 @@ def ProcessGalaxyImage(request):
     if(request.method != "POST"):
         #todo : process the image and return the result as a JSON object.
         #the request should contain the image in base64 format, and (optional for now, I'll decide later) the name of the galaxy to be processed.
-        return JsonResponse({"message": "Invalid request method: expected POST."}, status=550)
+        return JsonResponse({"message": "Invalid request method: expected POST."}, status=405)
     if("image" not in request.FILES):
-        return JsonResponse({"message": "Invalid request body: missing 'image' field."}, status=575)
+        return JsonResponse({"message": "Invalid request body: missing 'image' field."}, status=400)
 
     print("Logging: can proceed to image")
 
     my_image = request.FILES["image"]
 
     #now we pass the image to the galassifier-ml, and we return the result as a JSON object.
-    galaxy_type, confidence = gClassifier.predict_galaxy_type(my_image, MODEL_FULL_PATH)
+    try:
+        galaxy_type, confidence = gClassifier.predict_galaxy_type(my_image, MODEL_FULL_PATH)
+    except Exception as e:
+        return JsonResponse(
+            {
+                "success": False,
+                "error": "InferenceError",
+                "message": "Unable to classify the uploaded image.",
+            },
+            status=500
+        )
 
     return JsonResponse(
         {
