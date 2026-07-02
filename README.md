@@ -20,8 +20,8 @@ Main responsibilities:
 ## MACHINE LEARNING
 
 The core feature of Galassifier is a deep learning model trained to classify galaxy images.
-The model was trained with TensorFlow using a dataset of galaxies selected from Galaxy Zoo
-[Galaxy Zoo](see https://data.galaxyzoo.org/?_ga=2.107268992.360088703.1763919279-669604038.1763591364)
+The model was trained with TensorFlow using a dataset of galaxies selected from
+[Galaxy Zoo](https://data.galaxyzoo.org/?_ga=2.107268992.360088703.1763919279-669604038.1763591364)
 
 Current model properties:
 
