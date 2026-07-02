@@ -51,7 +51,8 @@ def ProcessGalaxyImage(request):
             "galaxyType": f"{galaxy_type}",
             "confidence": confidence,
             "modelVersion": model_version,         
-        }
+        },
+        status=200
     )
         
 # views Method to try to log User in the app.

@@ -15,12 +15,19 @@ def lazy_model_load(in_model_path):
         model = tf.keras.models.load_model(in_model_path)
     return model
 
-def predict_galaxy_type(image_path, model_path):
+def preprocess_galaxy_image(image_path):
+
     try:
-        #read image and set it to proper format and size
         image = Image.open(image_path).convert(mContract.INPUT_COLOR_MODE).resize((mContract.INPUT_IMAGE_SIZE, mContract.INPUT_IMAGE_SIZE))
         image = np.array(image).astype('float32')/mContract.IMG_COLOR_NORMALIZATION_FACTOR
         image = np.expand_dims(image, axis=0)  # Add batch dimension
+        return image
+    except Exception as e:
+        raise
+
+def predict_galaxy_type(image_path, model_path):
+    try:
+        image = preprocess_galaxy_image(image_path)
         #load pretrained ML model
         my_model = lazy_model_load(model_path)
         #prediction
@@ -32,6 +39,8 @@ def predict_galaxy_type(image_path, model_path):
     except Exception as e:
         print(f"error: {e}", file=sys.stderr)
         raise
+
+
 # We will execute this when calling it from command line, e.g. via an external exe.
 if __name__ == "__main__":
 
