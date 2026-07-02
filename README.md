@@ -60,6 +60,5 @@ Then open the client in the browser and follow the app UI flow to upload galaxy 
 - Deploy the backend to a cloud platform, such as AWS
 - Package the client for desktop or mobile distribution
 - Improve the ML model with ablation tests
-- Add a production/post-production ML pipeline
-- Improve error handling between client and server
+- Add a reproducible ML training and evaluation pipeline
 - Add tests for REST API endpoints
