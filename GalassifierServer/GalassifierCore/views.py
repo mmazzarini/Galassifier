@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+import PIL
 from GalassifierServer.settings import MODEL_FULL_PATH
 import GalassifierServer.ML.galaxyClassifier as gClassifier
 from GalassifierServer.COREUSER.loginFunctions import *
@@ -31,10 +32,29 @@ def ProcessGalaxyImage(request):
     print("Logging: can proceed to image")
 
     my_image = request.FILES["image"]
+    if (not my_image.content_type.startswith("image/")):
+        return JsonResponse(
+            {
+                "success" : False,
+                "error": "InvalidImageType",
+                "message" : "The uploaded file is not in a proper image format. Please upload a valid image!"                         
+            },
+            status=400
+       )
 
     #now we pass the image to the galassifier-ml, and we return the result as a JSON object.
     try:
         galaxy_type, confidence, model_version = gClassifier.predict_galaxy_type(my_image, MODEL_FULL_PATH)
+    except PIL.UnidentifiedImageError as e:
+        return JsonResponse(
+            {
+                "success": False,
+                "error": "ImageProcessingError",
+                "message": "Unable to process the uploaded image. Please ensure it is a valid one or try with another image!",
+            },
+            status=400
+        )
+    
     except Exception as e:
         return JsonResponse(
             {

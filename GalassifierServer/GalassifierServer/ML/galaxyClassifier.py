@@ -17,13 +17,12 @@ def lazy_model_load(in_model_path):
 
 def preprocess_galaxy_image(image_path):
 
-    try:
-        image = Image.open(image_path).convert(mContract.INPUT_COLOR_MODE).resize((mContract.INPUT_IMAGE_SIZE, mContract.INPUT_IMAGE_SIZE))
-        image = np.array(image).astype('float32')/mContract.IMG_COLOR_NORMALIZATION_FACTOR
-        image = np.expand_dims(image, axis=0)  # Add batch dimension
-        return image
-    except Exception as e:
-        raise
+    image = Image.open(image_path)
+    image = image.convert(mContract.INPUT_COLOR_MODE)
+    image = image.resize((mContract.INPUT_IMAGE_SIZE, mContract.INPUT_IMAGE_SIZE))
+    image = np.array(image).astype('float32')/mContract.IMG_COLOR_NORMALIZATION_FACTOR
+    image = np.expand_dims(image, axis=0)  # Add batch dimension
+    return image
 
 def predict_galaxy_type(image_path, model_path):
     try:
