@@ -1,0 +1,60 @@
+{
+    "config_name" : "galassifier-training-pipeline",
+    "description" : "This json file is used to configure our training project and pipeline",
+    
+    "model" : {
+        "input_image_size" : [28, 28],
+        "kernel_size_levels" : [3, 3],
+        "num_filters_levels" : [32, 64],
+        "maxpool_size_levels" : [2, 2],
+        "use_rgb_input" : false,
+        "model_additional_notes" : "Up to 3 convo and maxpool layers employable for this project",
+        "optimizer" : "adam",
+        "metrics" : ["accuracy"],
+        "dense_activation" : "softmax",
+        "convo2d_activation" : "relu"
+    },
+
+    "classification" : {
+        "classes" :  ["Uncertain", "Spiral", "Elliptical"],
+        "keyword_search_for_classes_in_data" : ["U", "S", "E"]
+    },
+
+    "data" : {
+        "dataset_path" : "",
+        "use_validation_set" : true,
+        "dataset_split_ratio" : 0.7,
+        "dataset_website_source" : "https://www.galaxyzoo.org/",
+        "dataset_additional_notes" : "The dataset is sourced from the Galaxy Zoo project, which is a citizen science project that aims to classify galaxies based on their shapes. The dataset contains images of galaxies that have been labeled by people."
+    },
+
+    "training" : {
+        "batch_size" : 32,
+        "num_epochs" : 50,
+        "learning_rate" : 0.001,
+        "use_early_stopping" : true,
+        "early_stopping_patience" : 3,
+        "use_k_fold_cross_validation" : false
+    },
+
+    "extensions" : {
+        "model_save_path" : "/content/drive/MyDrive/GalaxyClassificationModels/",
+        "model_save_name" : "galassifier_model",
+        "model_version_number" : "v1",
+        "model_save_extension" : "h5",
+        "model_contract_path" : "",
+        "model_contract_name" : "galassifier_model_contract",
+        "model_contract_extension" : "json"
+    },
+
+    "training_stages" :
+    {
+        "load_and_mount_remote_dataset" : false,
+        "mount_remote_images" : true,
+        "prepare_dataset" : false,
+        "train_model" : true,
+        "evaluate_model" : true,
+        "save_model" : true,
+        "promote_model" : false
+    }
+}
