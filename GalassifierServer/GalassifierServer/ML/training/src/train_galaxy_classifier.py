@@ -277,3 +277,18 @@ def load_remote_dataset():
             print(f"An unexpected error occurred during extraction: {e}")
 
         #print(extract_dir)
+
+        galaxies_CSV_map_filename = 'gz2_filename_mapping.csv'
+        galaxies_CSV_map_file_path = 'https://zenodo.org/records/3565489/files/gz2_filename_mapping.csv'
+        galaxies_CSV_map_file = keras.utils.get_file(galaxies_CSV_map_filename, galaxies_CSV_map_file_path)
+        print(galaxies_CSV_map_file)
+        # Read the CSV file from the zip archive directly
+        galaxies_map = pd.read_csv(galaxies_CSV_map_file)
+        print(galaxies_map.to_numpy().shape)
+        galaxy_map_np = np.empty((0,2), dtype=np.int64)
+        index = 0
+        for galaxy_data in galaxies_map.to_numpy():
+            index += 1
+            galaxy_id = int(galaxy_data[0])
+            galaxy_asset_id = int(galaxy_data[2]) # Renamed for clarity: this is asset_id, not galaxy_type
+            galaxy_map_np = np.append(galaxy_map_np, np.array([[galaxy_id, galaxy_asset_id]],dtype=np.int64), axis=0)
