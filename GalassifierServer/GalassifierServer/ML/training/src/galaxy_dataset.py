@@ -9,10 +9,12 @@ import shutil
 
 config_data = config.load_project_config()
 
-MOUNT_AND_TRAIN = config_data["training_stages"]["mount_and_train"]
+MOUNT_REMOTE_IMAGES = config_data["training_stages"]["mount_remote_images"]
+LOAD_REMOTE_DATASET = config_data["training_stages"]["load_and_mount_remote_dataset"]
+
 
 #method to define galaxy table, from a csv file converting it into an array
-def create_galaxy_table(in_galaxy_file):
+def  create_galaxy_table(in_galaxy_file):
     galaxies_np_file = in_galaxy_file.to_numpy()
     galaxies_table = []
     classes = config_data["classification"]["classes"]
@@ -44,7 +46,7 @@ def load_remote_dataset():
     galaxies_images_file = []
     galaxies_image_filename = 'images_gz2_v2.zip'
     #here we load and read the images
-    if(MOUNT_AND_TRAIN == True):
+    if(MOUNT_REMOTE_IMAGES == True):
         galaxies_images_file_path = 'https://zenodo.org/records/3565489/files/images_gz2.zip'
         galaxies_images_file = keras.utils.get_file(galaxies_image_filename, galaxies_images_file_path)
         print(galaxies_images_file)

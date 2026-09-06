@@ -2,7 +2,7 @@ import json
 
 config_data = []
 
-with open ('GalassifierServer/GalassifierServer/ML/training/Config/galassifier_training_config.json', 'r') as config_file:
+with open ('GalassifierServer/GalassifierServer/ML/training/config/galassifier_training_config.json', 'r') as config_file:
     try : 
         config_data = json.load(config_file)
     except json.decoder.JSONDecodeError as e:
@@ -14,7 +14,7 @@ def load_project_config():
     if config_data is not None:
         return config_data
     else:
-        with open('GalassifierServer/GalassifierServer/ML/training/Config/galassifier_training_config.json', 'r') as config_file:
+        with open('GalassifierServer/GalassifierServer/ML/training/config/galassifier_training_config.json', 'r') as config_file:
             try:
                 config_data = json.load(config_file)
             except json.decoder.JSONDecodeError as e:

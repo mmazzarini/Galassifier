@@ -51,6 +51,7 @@
     {
         "load_and_mount_remote_dataset" : false,
         "mount_remote_images" : true,
+        "load_already_built_model" : false,
         "prepare_dataset" : false,
         "train_model" : true,
         "evaluate_model" : true,
