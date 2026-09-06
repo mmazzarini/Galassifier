@@ -2,6 +2,11 @@
     "config_name" : "galassifier-training-pipeline",
     "description" : "This json file is used to configure our training project and pipeline",
     
+    "code" : {
+        "use_legacy_code" : false,
+        "code_additional_notes" : "The legacy code is the code that was used in the previous version of the project. It is kept for reference and comparison purposes. The legacy code is not used in the current version of the project, but can be actiavted by setting this flag to true."
+    },
+
     "model" : {
         "input_image_size" : [28, 28],
         "kernel_size_levels" : [3, 3],
@@ -41,10 +46,14 @@
         "model_save_path" : "/content/drive/MyDrive/GalaxyClassificationModels/",
         "model_save_name" : "galassifier_model",
         "model_version_number" : "v1",
-        "model_save_extension" : "h5",
-        "model_contract_path" : "",
+        "model_save_extension" : "h5"
+    },
+
+    "contract" :{
+        "model_contract_path" : "/content/drive/MyDrive/GalaxyClassificationModels/",
         "model_contract_name" : "galassifier_model_contract",
-        "model_contract_extension" : "json"
+        "model_contract_extension" : "json",
+        "release_contract" : true
     },
 
     "training_stages" :
@@ -55,7 +64,8 @@
         "prepare_dataset" : false,
         "train_model" : true,
         "evaluate_model" : true,
-        "save_model" : true,
-        "promote_model" : false
+        "save_model" : true, 
+        "promote_model" : false,
+        "notes" : "Save model is now not used, leaving it only for legacy purposes"
     }
 }

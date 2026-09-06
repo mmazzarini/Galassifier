@@ -11,8 +11,6 @@ from google.colab import drive
 import matplotlib.pyplot as plt
 import json
 
-drive.mount('/content/drive')
-
 config_data = []
 
 with open ('GalassifierServer/GalassifierServer/ML/training/Config/galassifier_training_config.json', 'r') as config_file:
@@ -24,7 +22,7 @@ with open ('GalassifierServer/GalassifierServer/ML/training/Config/galassifier_t
 LOAD_REMOTE_DATASET = config_data["training_stages"]["load_and_mount_remote_dataset"]
 MOUNT_REMOTE_IMAGES = config_data["training_stages"]["mount_remote_images"]
 EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
-SAVE_ARTIFACTS = config_data["training_stages"]["save_artifacts"]
+SAVE_ARTIFACTS = config_data["training_stages"]["save_model"]
 
 # todo Remove this!!   
 #PYTHON_READ_IMAGE_VERSION = 1 # 0: read images from remote website and save them to drive; 1: read images from drive

@@ -6,12 +6,14 @@ import zipfile
 import config
 from tensorflow import keras
 import shutil
+import math
 
 config_data = config.load_project_config()
 
 MOUNT_REMOTE_IMAGES = config_data["training_stages"]["mount_remote_images"]
 LOAD_REMOTE_DATASET = config_data["training_stages"]["load_and_mount_remote_dataset"]
-
+IMG_SIZE_X = config_data["model"]["input_image_size"][0]
+IMG_SIZE_Y = config_data["model"]["input_image_size"][1]
 
 #method to define galaxy table, from a csv file converting it into an array
 def  create_galaxy_table(in_galaxy_file):

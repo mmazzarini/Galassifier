@@ -1,9 +1,15 @@
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+import config
 
 #simple model evaluation test
 def evaluate_model(model, loaded_train_images, loaded_train_labels, loaded_val_images, loaded_val_labels):
+
+    config_data = config.load_project_config()
+    IMG_SIZE_X = config_data["model"]["input_image_size"][0]
+    IMG_SIZE_Y = config_data["model"]["input_image_size"][1]
+
     BASE_SHIFT = 5
     TEST_SIZE = 20
     TEST_STEP = math.floor(loaded_train_images.shape[0]/TEST_SIZE)
@@ -14,10 +20,11 @@ def evaluate_model(model, loaded_train_images, loaded_train_labels, loaded_val_i
 
     for idx in range (BASE_SHIFT, BASE_SHIFT + TEST_SIZE*TEST_STEP, TEST_STEP):
 
+        num_channels = 3 if config_data["model"]["use_rgb_input"] else 1
         galaxy_image_to_test = loaded_train_images[idx]
         galaxy_label_to_test = loaded_train_labels[idx]
-        print(galaxy_image_to_test.shape, galaxy_image_to_test.size, galaxy_image_to_test.dims)
-        prediction_labels = model.predict(galaxy_image_to_test.reshape(1,28,28))
+        #print(galaxy_image_to_test.shape, galaxy_image_to_test.size, galaxy_image_to_test.shape)
+        prediction_labels = model.predict(galaxy_image_to_test.reshape(1, IMG_SIZE_X, IMG_SIZE_Y, num_channels))
         prediction_idx = np.argmax(prediction_labels, axis=1)
         prediction = prediction_labels[0][prediction_idx]
         print(f"prediction is: {prediction}; prediction index is: {prediction_idx}")
