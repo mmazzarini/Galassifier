@@ -1,44 +1,25 @@
 #generic imports
 import numpy as np
 from tensorflow import keras
-import pandas as pd
-import zipfile
 import os
-import shutil
 import math
 import tensorflow as tf
 from google.colab import drive
 import matplotlib.pyplot as plt
 import json
+import loadsave_utilities as lsutils
+import config
 
 drive.mount('/content/drive')
 
-config_data = []
-
-with open ('GalassifierServer/GalassifierServer/ML/training/Config/galassifier_training_config.json', 'r') as config_file:
-    try : 
-        config_data = json.load(config_file)
-    except json.decoder.JSONDecodeError as e:
-        print(f"Error reading JSON configuration file: {e}")
+config_data = config.load_project_config()
 
 LOAD_REMOTE_DATASET = config_data["training_stages"]["load_and_mount_remote_dataset"]
 MOUNT_REMOTE_IMAGES = config_data["training_stages"]["mount_remote_images"]
 EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
 SAVE_ARTIFACTS = config_data["training_stages"]["save_artifacts"]
 
-#method to load the project configuration from a JSON file
-def load_project_config():
-    global config_data
-    if config_data is not None:
-        return config_data
-    else:
-        with open('GalassifierServer/GalassifierServer/ML/training/Config/galassifier_training_config.json', 'r') as config_file:
-            try:
-                config_data = json.load(config_file)
-            except json.decoder.JSONDecodeError as e:
-                print(f"Error reading JSON configuration file: {e}")
-                return None
-    return config_data
+
 
 #The model will be trained on a number of galaxy pics to learn how to classify them
 def build_model():
@@ -66,54 +47,11 @@ def build_model():
     model.compile(optimizer=model_data["optimizer"], loss="sparse_categorical_crossentropy", metrics=model_data["metrics"])
     return model
 
-#method to define galaxy table, from a csv file converting it into an array
-def create_galaxy_table(in_galaxy_file):
-    galaxies_np_file = in_galaxy_file.to_numpy()
-    galaxies_table = []
-    classes = config_data["classification"]["classes"]
-    classification_keywords = config_data["classification"]["keyword_search_for_classes_in_data"]
-    for line in galaxies_np_file:
-        galaxy_type = 0 # means uncertain type
-        galaxy_id = line[0]
-        galaxy_type_str = str(line[6])
-        for class_key in classification_keywords:
-            if(class_key in galaxy_type_str):
-                galaxy_type = classification_keywords.index(class_key)
-                break
-        galaxies_table.append([galaxy_id, galaxy_type])
-    return galaxies_table
-
-def load_dataset_from_drive(in_loadsave_path):
-
-    data = np.load(in_loadsave_path)
-    return (
-        data['train_images'],
-        data['train_labels'],
-        data['val_images'],
-        data['val_labels']
-    )
-
-def get_model_save_path():
-    model_save_path = config_data["extensions"]["model_save_path"]
-    model_save_path += config_data["extensions"]["model_save_name"]
-    model_save_path += "_"
-    model_save_path += config_data["extensions"]["model_version_number"]
-    model_save_path += "."
-    model_save_path += config_data["extensions"]["model_save_extension"]
-    return model_save_path
-
-def save_dataset_to_drive(in_loadsave_path, in_loaded_train_images, in_loaded_train_labels, 
-                          in_loaded_val_images, in_loaded_val_labels):
-    np.savez(in_loadsave_path,
-             train_images=in_loaded_train_images,
-             train_labels=in_loaded_train_labels,
-             val_images=in_loaded_val_images,
-             val_labels=in_loaded_val_labels)
 
 def train_model(model, loaded_train_images, loaded_train_labels, loaded_val_images, loaded_val_labels, model_save_path):
         #if(LOAD_REMOTE_DATASET == True):
 
-        config_data = load_project_config()
+        config_data = config.load_project_config()
 
         train_size = loaded_train_labels.shape[0] 
         validation_size = 0
@@ -174,7 +112,7 @@ def train_model(model, loaded_train_images, loaded_train_labels, loaded_val_imag
         print(f"Model saved successfully to: {model_save_path}")
 
 def train_or_load_model(loaded_train_images, loaded_train_labels, loaded_val_images, loaded_val_labels):
-    model_save_path = get_model_save_path()
+    model_save_path = lsutils.get_model_save_path()
     trained_model = []
     if(config_data["training_stages"]["save_model"]  == True):
         model = build_model()
@@ -182,113 +120,3 @@ def train_or_load_model(loaded_train_images, loaded_train_labels, loaded_val_ima
     else:
         trained_model = keras.models.load_model(model_save_path)
 
-#simple model evaluation test
-def evaluate_model(model, loaded_train_images, loaded_train_labels, loaded_val_images, loaded_val_labels):
-    BASE_SHIFT = 5
-    TEST_SIZE = 20
-    TEST_STEP = math.floor(loaded_train_images.shape[0]/TEST_SIZE)
-
-    correct_predictions = 0
-
-    print(TEST_SIZE, TEST_STEP, BASE_SHIFT + TEST_SIZE*TEST_STEP)
-
-    for idx in range (BASE_SHIFT, BASE_SHIFT + TEST_SIZE*TEST_STEP, TEST_STEP):
-
-        galaxy_image_to_test = loaded_train_images[idx]
-        galaxy_label_to_test = loaded_train_labels[idx]
-        print(galaxy_image_to_test.shape, galaxy_image_to_test.size, galaxy_image_to_test.dims)
-        prediction_labels = model.predict(galaxy_image_to_test.reshape(1,28,28))
-        prediction_idx = np.argmax(prediction_labels, axis=1)
-        prediction = prediction_labels[0][prediction_idx]
-        print(f"prediction is: {prediction}; prediction index is: {prediction_idx}")
-
-        prediction_color =""
-        if(galaxy_label_to_test != prediction_idx):
-            print(f"Wrong prediction!")
-            prediction_color = "r"
-        else:
-            print(f"Correct prediction!")
-            prediction_color = "g"
-            correct_predictions += 1
-
-        print(f'\n\ncorrect predictions: {correct_predictions}\n\n')
-        plt.imshow(galaxy_image_to_test, cmap='gray')
-        plt.title(f'galaxy image (Index {idx}), Label: {galaxy_label_to_test}', color=prediction_color)
-        plt.axis('off')
-        plt.show()
-
-    print(f"Done testing: Correct predictions: {correct_predictions} out of {TEST_SIZE}")
-    
-
-def load_remote_dataset():
-
-    #catalog: lets get galaxies
-    #using https://data.galaxyzoo.org/?_ga=2.107268992.360088703.1763919279-669604038.1763591364
-    #see also https://zenodo.org/records/3565489#.Y3vFKS-l0eY for the images
-    galaxies_CSV_filename = 'gz2_hart16.csv.gz'
-    galaxies_CSV_file_path = 'https://gz2hart.s3.amazonaws.com/gz2_hart16.csv.gz'
-    galaxies_CSV_zip_file = keras.utils.get_file(galaxies_CSV_filename, galaxies_CSV_file_path)
-    print(galaxies_CSV_zip_file)
-    # Read the CSV file from the zip archive directly
-    galaxies_file = pd.read_csv(galaxies_CSV_zip_file)
-    galaxies_datatable = create_galaxy_table(galaxies_file)
-
-    galaxies_images_file = []
-    galaxies_image_filename = 'images_gz2_v2.zip'
-    #here we load and read the images
-    if(MOUNT_REMOTE_IMAGES == True):
-        galaxies_images_file_path = 'https://zenodo.org/records/3565489/files/images_gz2.zip'
-        galaxies_images_file = keras.utils.get_file(galaxies_image_filename, galaxies_images_file_path)
-        print(galaxies_images_file)
-        #copy images to drive
-        
-        shutil.copy(galaxies_images_file, '/content/drive/MyDrive/Galaxies_Zoo')
-        galaxies_images_file = keras.utils.get_file(galaxies_image_filename, galaxies_images_file_path)
-        print(galaxies_images_file)
-    else:
-        galaxies_images_file = os.path.join('/content/drive/MyDrive/Galaxies_Zoo', galaxies_image_filename)
-        print(galaxies_images_file)
-        if not os.path.exists(galaxies_images_file):
-            print("Warning! The file does not exist in drive directory!")
-
-    if(LOAD_REMOTE_DATASET == True):
-
-        extract_dir = './galaxy_images_truncated'
-        os.makedirs(extract_dir, exist_ok=True)
-
-        galaxies_datatable_np = np.array(galaxies_datatable)
-
-        try:
-            with zipfile.ZipFile(galaxies_images_file, 'r') as zip_ref:
-                all_files_in_zip = zip_ref.namelist()
-                print(len(all_files_in_zip))
-                extract_count = 0
-
-                for file_name in all_files_in_zip:
-                    if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
-                        zip_ref.extract(file_name, extract_dir)
-                        extract_count += 1
-
-        except FileNotFoundError:
-            print(f"Error: Zip file not found at '{galaxies_images_file}'. Please ensure it was downloaded correctly.")
-        except zipfile.BadZipFile:
-            print(f"Error: '{galaxies_images_file}' is not a valid zip file or is corrupted. It might have been an incomplete download.")
-        except Exception as e:
-            print(f"An unexpected error occurred during extraction: {e}")
-
-        #print(extract_dir)
-
-        galaxies_CSV_map_filename = 'gz2_filename_mapping.csv'
-        galaxies_CSV_map_file_path = 'https://zenodo.org/records/3565489/files/gz2_filename_mapping.csv'
-        galaxies_CSV_map_file = keras.utils.get_file(galaxies_CSV_map_filename, galaxies_CSV_map_file_path)
-        print(galaxies_CSV_map_file)
-        # Read the CSV file from the zip archive directly
-        galaxies_map = pd.read_csv(galaxies_CSV_map_file)
-        print(galaxies_map.to_numpy().shape)
-        galaxy_map_np = np.empty((0,2), dtype=np.int64)
-        index = 0
-        for galaxy_data in galaxies_map.to_numpy():
-            index += 1
-            galaxy_id = int(galaxy_data[0])
-            galaxy_asset_id = int(galaxy_data[2]) # Renamed for clarity: this is asset_id, not galaxy_type
-            galaxy_map_np = np.append(galaxy_map_np, np.array([[galaxy_id, galaxy_asset_id]],dtype=np.int64), axis=0)
