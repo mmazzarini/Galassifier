@@ -49,28 +49,20 @@ def train_model(model, loaded_train_images, loaded_train_labels, loaded_val_imag
 
         config_data = config.load_project_config()
 
-        train_size = loaded_train_labels.shape[0] 
-        validation_size = 0
-        if (USE_VALIDATION_SET == True):
-            train_size *= (config_data["data"]["dataset_split_ratio"])
-            validation_size  = loaded_val_labels.shape[0]*(1. - config_data["data"]["dataset_split_ratio"])
+        train_rescale = loaded_train_labels.shape[0] * config_data["training"]["train_sample_fraction"]
+        validation_rescale  = loaded_val_labels.shape[0] * config_data["training"]["validation_sample_fraction"] if (loaded_val_labels.shape[0] > 0) else 0
         batch_size = config_data["training"]["batch_size"]
         num_epochs = config_data["training"]["num_epochs"]
  
         #train-val steps
-        train_step = math.floor(loaded_train_images.shape[0]/train_size)
-        val_step = math.floor(loaded_val_images.shape[0]/validation_size) if (USE_VALIDATION_SET == True) else 0
+        train_step = math.floor(loaded_train_images.shape[0]/train_rescale)
+        val_step = math.floor(loaded_val_images.shape[0]/validation_rescale) if (USE_VALIDATION_SET == True) else 0
 
         #sample only some galaxies
         sized_train_images = loaded_train_images[0:len(loaded_train_images):train_step]
         sized_train_labels = loaded_train_labels[0:len(loaded_train_labels):train_step]
         sized_val_images = loaded_val_images[0:len(loaded_val_images):val_step] if (USE_VALIDATION_SET == True) else []
         sized_val_labels = loaded_val_labels[0:len(loaded_val_labels):val_step] if (USE_VALIDATION_SET == True) else []
-
-        print(len(sized_train_images))
-        print(len(sized_train_labels))
-        print(len(sized_val_images))
-        print(len(sized_val_labels))
 
         train_dataset = tf.data.Dataset.from_tensor_slices((sized_train_images, sized_train_labels))
         train_dataset = train_dataset.repeat(25)
@@ -101,7 +93,7 @@ def train_model(model, loaded_train_images, loaded_train_labels, loaded_val_imag
         train_history = model.fit(x=train_dataset,
                 epochs=num_epochs,
                 validation_data= val_dataset if (config_data["data"]["use_validation_set"] == True) else None,
-                steps_per_epoch=math.ceil(train_size/batch_size),
+                steps_per_epoch=math.ceil(train_rescale/batch_size),
                 callbacks=(employed_callbacks)
         )
 

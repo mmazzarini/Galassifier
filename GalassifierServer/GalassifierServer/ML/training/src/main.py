@@ -5,6 +5,7 @@ import loadsave_utilities as lsutils
 import evaluate_galaxy_classifier as eval_galaxy
 import train_galaxy_classifier as train_galaxy
 import galaxy_dataset as galaxy_data
+import contract
 
 drive.mount('/content/drive')
 
@@ -18,6 +19,7 @@ def Galaxy_Classifier():
     MOUNT_REMOTE_IMAGES = config_data["training_stages"]["mount_remote_images"]
     TRAIN_MODEL = config_data["training_stages"]["train_model"]
     EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
+    RELEASE_CONTRACT = config_data["contract"]["release_contract"]
 
     dataset = []
 
@@ -35,14 +37,19 @@ def Galaxy_Classifier():
 
     model = train_galaxy.build_model()
 
+    history = None
+
     if(TRAIN_MODEL == True):
         trained_model, history = train_galaxy.train_model(model, dataset["train_images"], dataset["train_labels"], 
                                  dataset["val_images"], dataset["val_labels"])
 
-    if(EVALUATE_MODEL == True):
-        eval_galaxy.evaluate_model(trained_model, dataset["train_images"], dataset["train_labels"],
-                               dataset["val_images"], dataset["val_labels"])
+        if(EVALUATE_MODEL == True):
+            eval_galaxy.evaluate_model(trained_model, dataset["train_images"], dataset["train_labels"],
+                                dataset["val_images"], dataset["val_labels"])
 
+        if(RELEASE_CONTRACT == True):
+            contract.release_model_contract(history)
+            contract.release_model_metrics(history)
 
 # MAIN EXECUTION BLOCK!!
 

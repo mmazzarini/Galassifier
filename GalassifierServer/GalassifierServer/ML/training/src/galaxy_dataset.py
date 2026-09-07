@@ -118,7 +118,7 @@ def load_dataset_from_tables(galaxies_datatable_np, galaxy_map_np):
     train_labels = []
     val_images = []
     val_labels = []
-    train_num = math.floor(galaxies_datatable_np.shape[0]*0.70)
+    train_num = math.floor(galaxies_datatable_np.shape[0]*config_data["data"]["dataset_split_ratio"])
     val_num = galaxies_datatable_np.shape[0] - train_num
     total_set_num = train_num + val_num
     extract_dir = './galaxy_images_truncated'
