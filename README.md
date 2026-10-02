@@ -37,6 +37,25 @@ The model consists of:
 - config json file to properly tweak a number of parameters to configure the dataset reduction phase, the training and the model properties, as well as the evaluation phase
 - main.py module containing the main orchestrator of the whole MLE pipeline.
 
+### Evaluation and artifacts
+In order tro estimate the impact of the choice of parameters and configuration, as well as the architectural decisions on the MLE pipeline, the MLE system
+outputs some evaluation data.
+The most relevant one is the Confusion Matrix. 
+N.B. due to dataset limitations, I simulated the test dataset using some of the training and validation data that were not used for the training.
+If in the configuration file the parameter "use_validation_confusion_matrix" is set to true, then the evaluation pipeline will create a
+validation matrix dictionary in the evaluation data json file.
+
+The classification of galaxies is set as an array of labels: ["Uncertain", "Spiral", "Elliptical"].
+
+Therefore, the confusion matrix will be read from the json eval file with the following fashion:
+
+    [U] [S] [E]
+[U]  00  01  02
+[S]  10  11  12
+[E]  20  21  22
+
+Where the rows represent the true labels of the images, and the colums represent the predictions for those images.
+
 ## CLIENT
 
 The client is represented by a minimal Vue.js application.
