@@ -1,8 +1,8 @@
 # GALASSIFIER
 
 Galassifier is a RESTful application and Machine Learning (ML) engineering project.
-The project connects a Convolutional Neural Network (CNN) training pipeline, a Django inference backend, and a Vue.js client,.
-Server and Client communicate through REST APIs. 
+The project connects a Convolutional Neural Network (CNN) training pipeline, a Django inference backend, and a Vue.js client.
+The server and client communicate through REST APIs. 
 
 ## SERVER
 
@@ -51,13 +51,13 @@ Current artifacts include:
 #### Validation confusion matrix
 
 The main evaluation artifact is the validation confusion matrix. 
-N.B. At the current stage, the project reports validation-set evaluation. A fully independent test set is planned as future work.
-If in the configuration file the parameter "use_validation_confusion_matrix" is set to true, then the evaluation pipeline will create a
+At the current stage, the project reports validation-set evaluation. A fully independent test set is planned as future work.
+If the "use_validation_confusion_matrix" parameter is set to true in the configuration file, the evaluation pipeline creates a
 validation confusion matrix artifact in the JSON file.
 
 The classification of galaxies is set as an array of labels: ["Uncertain", "Spiral", "Elliptical"].
 
-Therefore, the confusion matrix will be read from the json eval file with the following fashion:
+Therefore, the validation confusion matrix will be read from the JSON file as follows:
 
 ```txt
             Predicted
@@ -67,7 +67,7 @@ True U     00   01   02
      E     20   21   22
 ```
 
-N.B. the rows represent true labels, while the columns represent predicted labels. The entries 00, 01,..., 22 represent positions in the matrix.
+Rows represent true labels, while columns represent predicted labels. The entries 00, 01,..., 22 represent positions in the matrix.
 
 #### Debug plots
 
