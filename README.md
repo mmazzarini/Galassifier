@@ -1,12 +1,14 @@
 # GALASSIFIER
 
-Galassifier is a RESTful application that predicts the type of a galaxy from an input image.
-The user uploads a galaxy image through a Vue.js client.
-The backend receives the image through a REST API, runs a local machine learning classification process, 
-and returns the predicted galaxy class as a JSON response.
+Galassifier is a RESTful application and Machine Learning Engineering (MLE) project.
+The core of the project is connecting together the process of training of a Convolutional Neural Network (CNN) on galactic images, a
+backend inference server, and a simple client interface. 
+Serve and client interact by means of REST APIs.
 
 ## SERVER
-The server is a python django application. It exposes REST APIs used by the client to classify galaxy images.
+The server is a python django application. 
+It loads the current CNN and employs it for local inference on images of galaxies.
+It exposes a REST API to communicate with the client.
 
 Main responsibilities:
 
@@ -19,29 +21,32 @@ Main responsibilities:
 
 ## MACHINE LEARNING
 
-The core feature of Galassifier is a deep learning model trained to classify galaxy images.
-The model was trained with TensorFlow using a dataset of galaxies selected from
+The core feature of Galassifier is a CNN trained to classify galaxy images.
+The model was trained with TensorFlow and Keras framework, using a dataset of galaxies selected from
 [Galaxy Zoo](https://data.galaxyzoo.org/?_ga=2.107268992.360088703.1763919279-669604038.1763591364)
 
-Current model properties:
+### Current features:
 
-- convolutional neural network
+The model consists of:
+- A CNN
 - Conv2D and MaxPooling layers
 - early stopping regularization
-- local Python prediction script
 
+### MLE features
+- python modules returning a variety of methods: load/save files, build, train and evaluation of model
+- config json file to properly tweak a number of parameters to configure the dataset reduction phase, the training and the model properties, as well as the evaluation phase
+- main.py module containing the main orchestrator of the whole MLE pipeline.
 
 ## CLIENT
 
-The client is a Vue.js application.
+The client is represented by a minimal Vue.js application.
 
 The client:
 
-- navigates between pages using Vue Router
+- navigates between pages (using Vue Router)
 - lets the user upload a galaxy image
-- sends POST/GET requests to the backend
+- sends the galaxy image to the server via REST architecture
 - displays the classification result returned by the server
-
 
 ## Development Usage
 
