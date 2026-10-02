@@ -10,17 +10,14 @@ import contract
 drive.mount('/content/drive')
 
 def Galaxy_Classifier():
-    ####
-    a = 1 #placeholder
-    a += 1 #placeholder
 
     config_data = config.load_project_config()
     LOAD_REMOTE_DATASET = config_data["training_stages"]["load_and_mount_remote_dataset"]
-    MOUNT_REMOTE_IMAGES = config_data["training_stages"]["mount_remote_images"]
     TRAIN_MODEL = config_data["training_stages"]["train_model"]
     EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
     RELEASE_CONTRACT = config_data["contract"]["release_contract"]
-
+    USE_VALIDATION_CONFUSION_MATRIX = config_data["evaluation"]["use_validation_confusion_matrix"]
+    VAL_CONFUSION_MATRIX_FILE_PATH = config_data["evaluation"]["val_confusion_matrix_file_path"]
     dataset = []
 
     if(LOAD_REMOTE_DATASET == True):
@@ -44,8 +41,12 @@ def Galaxy_Classifier():
                                  dataset["val_images"], dataset["val_labels"])
 
         if(EVALUATE_MODEL == True):
-            eval_galaxy.evaluate_model(trained_model, dataset["train_images"], dataset["train_labels"],
+
+            eval_result = eval_galaxy.evaluate_model(trained_model, dataset["train_images"], dataset["train_labels"],
                                 dataset["val_images"], dataset["val_labels"])
+
+            if("val_confusion_matrix" in eval_result and eval_result["val_confusion_matrix"] is not None):
+                lsutils.save_confusion_matrix(VAL_CONFUSION_MATRIX_FILE_PATH, eval_result["val_confusion_matrix"])
 
         if(RELEASE_CONTRACT == True):
             contract.release_model_contract(history)

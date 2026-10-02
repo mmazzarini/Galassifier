@@ -10,9 +10,11 @@ def evaluate_model(model, loaded_train_images, loaded_train_labels, loaded_val_i
     IMG_SIZE_X = config_data["model"]["input_image_size"][0]
     IMG_SIZE_Y = config_data["model"]["input_image_size"][1]
 
-    BASE_SHIFT = 5
-    TEST_SIZE = 20
+    BASE_SHIFT = config_data["evaluation"]["base_shift"]
+    TEST_SIZE = config_data["evaluation"]["test_size"]
     TEST_STEP = math.floor(loaded_train_images.shape[0]/TEST_SIZE)
+
+    USE_VALIDATION_CONFUSION_MATRIX = config_data["evaluation"]["use_validation_confusion_matrix"]
 
     correct_predictions = 0
 
@@ -44,6 +46,37 @@ def evaluate_model(model, loaded_train_images, loaded_train_labels, loaded_val_i
         plt.axis('off')
         plt.show()
 
+    eval_result = {}
+
+    test_on_train_set = eval_result["test_on_train_set"] = {}
+    test_on_train_set["base_shift"] = BASE_SHIFT
+    test_on_train_set["test_size"] = TEST_SIZE
+    test_on_train_set["test_step"] = TEST_STEP
+    test_on_train_set["correct_predictions"] = correct_predictions
+        
+    if(USE_VALIDATION_CONFUSION_MATRIX == True):
+        val_confusion_mat = val_confusion_matrix(model, loaded_val_images, loaded_val_labels)
+        eval_result["val_confusion_matrix"] = val_confusion_mat
+    else:
+        eval_result["val_confusion_matrix"] = None
+
     print(f"Done testing: Correct predictions: {correct_predictions} out of {TEST_SIZE}")
+
+    return eval_result
     
 
+def val_confusion_matrix(model, loaded_val_images, loaded_val_labels):
+
+    config_data = config.load_project_config()
+
+    predictions = model.predict(loaded_val_images) #arrays of probabilities for each class. N arrays for N images
+    predicted_classes = np.argmax(predictions, axis=1)
+    val_confusion_mat = np.zeros((config_data["classification"]["classes"].__len__(), config_data["classification"]["classes"].__len__()), dtype=int)
+    for i in range(loaded_val_labels.shape[0]):
+        #true ones in rows, vs predicted in columns for each fixed row
+        val_confusion_mat[loaded_val_labels[i]][predicted_classes[i]] += 1
+
+    print(f"Validation Confusion Matrix:\n{val_confusion_mat}")
+
+    return val_confusion_mat
+    

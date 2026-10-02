@@ -1,6 +1,7 @@
 
 import numpy as np
 import config
+import json
 
 config_data = config.load_project_config()
 
@@ -27,3 +28,16 @@ def get_model_save_path():
     model_save_path += "."
     model_save_path += config_data["extensions"]["model_save_extension"]
     return model_save_path
+
+#simple confusion matrix filesave (json format for portability)
+def save_confusion_matrix(file_path, confusion_matrix):
+
+    data = {
+        "classes" : config_data["classification"]["classes"],
+        "val_confusion_matrix" : confusion_matrix.tolist(),
+        "rows" : "true",
+        "cols" : "preds"
+    }
+
+    with open(file_path, 'w') as f:
+        json.dump(data, f, indent=4)

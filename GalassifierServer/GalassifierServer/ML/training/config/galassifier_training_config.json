@@ -22,7 +22,8 @@
 
     "classification" : {
         "classes" :  ["Uncertain", "Spiral", "Elliptical"],
-        "keyword_search_for_classes_in_data" : ["U", "S", "E"]
+        "keyword_search_for_classes_in_data" : ["U", "S", "E"],
+        "classification_additional_notes" : " 0 = Uncertain, 1 = Spiral, 2 = Elliptical"
     },
 
     "data" : {
@@ -43,6 +44,13 @@
         "train_sample_fraction": 0.5,
         "validation_sample_fraction": 0.5,
         "notes" : "train sample fraction and validation samplem fraction are used to sample a fraciton of the traning and validation data, to save memory and limited resources"
+    },
+
+    "evaluation" : {
+        "base_shift" : 5,
+        "test_size" : 200,
+        "use_validation_confusion_matrix" : true,
+        "val_confusion_matrix_file_path" : "/content/drive/MyDrive/GalaxyClassificationModels/galassifier_model_val_confusion_matrix.json"
     },
 
     "extensions" : {
