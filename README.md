@@ -40,7 +40,11 @@ The model consists of:
 
 ### Evaluation and artifacts
 
-In order to estimate the impact of the choice of parameters and configuration data on the final model quality, as well as the architectural decisions on the ML engineering pipeline, the system outputs some evaluation data.
+The training pipeline produces simple JSON artifacts to make each model run easier to inspect and compare.
+
+Current artifacts include:
+- a validation confusion matrix
+- a debug plot routine to show images and visually compare predictions and true labels
 
 #### Validation confusion matrix
 
