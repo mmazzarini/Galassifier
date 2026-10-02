@@ -3,10 +3,10 @@
 Galassifier is a RESTful application and Machine Learning Engineering (MLE) project.
 The core of the project is connecting together the process of training of a Convolutional Neural Network (CNN) on galactic images, a
 backend inference server, and a simple client interface. 
-Serve and client interact by means of REST APIs.
+Server and client interact by means of REST APIs.
 
 ## SERVER
-The server is a python django application. 
+The server is a Python/Django application. 
 It loads the current CNN and employs it for local inference on images of galaxies.
 It exposes a REST API to communicate with the client.
 
@@ -22,7 +22,7 @@ Main responsibilities:
 ## MACHINE LEARNING
 
 The core feature of Galassifier is a CNN trained to classify galaxy images.
-The model was trained with TensorFlow and Keras framework, using a dataset of galaxies selected from
+The model was trained with TensorFlow/Keras, using a dataset of galaxies selected from
 [Galaxy Zoo](https://data.galaxyzoo.org/?_ga=2.107268992.360088703.1763919279-669604038.1763591364)
 
 ### Current features:
@@ -33,7 +33,7 @@ The model consists of:
 - early stopping regularization
 
 ### MLE features
-- python modules returning a variety of methods: load/save files, build, train and evaluation of model
+- python modules returning a variety of methods: load/save files, model building, training, evaluation, and artifact generation
 - config json file to properly tweak a number of parameters to configure the dataset reduction phase, the training and the model properties, as well as the evaluation phase
 - main.py module containing the main orchestrator of the whole MLE pipeline.
 
