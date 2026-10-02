@@ -42,7 +42,7 @@ The model consists of:
 
 In order to estimate the impact of the choice of parameters and configuration data on the final model quality, as well as the architectural decisions on the ML engineering pipeline, the system outputs some evaluation data.
 
-#### Evaluation matrix
+#### Validation confusion matrix
 
 The most relevant one is the Confusion Matrix. 
 N.B. At the current stage, the project reports validation-set evaluation. A fully independent test set is planned as future work.
@@ -53,16 +53,19 @@ The classification of galaxies is set as an array of labels: ["Uncertain", "Spir
 
 Therefore, the confusion matrix will be read from the json eval file with the following fashion:
 
-... [U] [S] [E]
-[U]  00  01  02
-[S]  10  11  12
-[E]  20  21  22
+```txt
+            Predicted
+            U    S    E
+True U     00   01   02
+     S     10   11   12
+     E     20   21   22
+```
 
-Where the rows represent the true labels of the images, and the colums represent the predictions for those images.
+Where the rows represent the true labels of the images, and the columns represent the predictions for those images. The numbers 00, 01, ..., 22 represent indexed positions in the matrix.
 
 #### Debug plots
 
-There is an additional set of plots produced with a debug feature (currently included by default in the pipeline) that plots some of the galaxies in the training dataset and produces plots comparing prediction and true label, for a quick and order-of-magnitude estimate of the model accuracy.
+There is an additional set of plots produced with a debug feature (currently included by default in the pipeline) that plots some of the galaxies in the training dataset and produces plots comparing prediction and true label, for a qualitative inspection of predictions and failure cases.
 
 ## CLIENT
 
