@@ -1,7 +1,7 @@
 # GALASSIFIER
 
 Galassifier is a RESTful application and Machine Learning (ML) engineering project.
-The project connects a Convolutional Neural Network (CNN) training pipeline, a Django inference backend/Server, and a vue.js Client,.
+The project connects a Convolutional Neural Network (CNN) training pipeline, a Django inference backend, and a Vue.js client,.
 Server and Client communicate through REST APIs. 
 
 ## SERVER
@@ -34,8 +34,8 @@ The model consists of:
 
 ### ML Engineering features
 
-- python modules returning a variety of methods: load/save files, model building, training, evaluation, and artifact generation
-- config json file to properly tweak a number of parameters to configure the dataset reduction phase, the training and the model properties, as well as the evaluation phase
+- Python modules for file loading/saving, model building, training, evaluation, and artifact generation
+- JSON configuration file to properly tweak a number of parameters to configure the dataset reduction phase, the training and the model properties, as well as the evaluation phase
 - main.py module containing the main orchestrator of the whole ML engineering pipeline.
 
 ### Evaluation and artifacts
@@ -43,15 +43,17 @@ The model consists of:
 The training pipeline produces simple JSON artifacts to make each model run easier to inspect and compare.
 
 Current artifacts include:
-- a validation confusion matrix
-- a debug plot routine to show images and visually compare predictions and true labels
+- model contract JSON
+- training metrics JSON
+- validation confusion matrix JSON
+- debug plot routine
 
 #### Validation confusion matrix
 
-The most relevant one is the Confusion Matrix. 
+The main evaluation artifact is the validation confusion matrix. 
 N.B. At the current stage, the project reports validation-set evaluation. A fully independent test set is planned as future work.
 If in the configuration file the parameter "use_validation_confusion_matrix" is set to true, then the evaluation pipeline will create a
-validation matrix dictionary in the evaluation data json file.
+validation confusion matrix artifact in the JSON file.
 
 The classification of galaxies is set as an array of labels: ["Uncertain", "Spiral", "Elliptical"].
 
@@ -65,7 +67,7 @@ True U     00   01   02
      E     20   21   22
 ```
 
-Where the rows represent the true labels of the images, and the columns represent the predictions for those images. The numbers 00, 01, ..., 22 represent indexed positions in the matrix.
+N.B. the rows represent true labels, while the columns represent predicted labels. The entries 00, 01,..., 22 represent positions in the matrix.
 
 #### Debug plots
 
