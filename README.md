@@ -45,7 +45,7 @@ In order to estimate the impact of the choice of parameters and configuration da
 #### Evaluation matrix
 
 The most relevant one is the Confusion Matrix. 
-N.B. due to dataset limitations, I simulated the test dataset using some of the training and validation data that were not used for the training.
+N.B. At the current stage, the project reports validation-set evaluation. A fully independent test set is planned as future work.
 If in the configuration file the parameter "use_validation_confusion_matrix" is set to true, then the evaluation pipeline will create a
 validation matrix dictionary in the evaluation data json file.
 
