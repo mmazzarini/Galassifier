@@ -38,8 +38,11 @@ The model consists of:
 - main.py module containing the main orchestrator of the whole MLE pipeline.
 
 ### Evaluation and artifacts
-In order tro estimate the impact of the choice of parameters and configuration, as well as the architectural decisions on the MLE pipeline, the MLE system
+In order to estimate the impact of the choice of parameters and configuration data on the final model quality, as well as the architectural decisions on the MLE pipeline, the MLE system
 outputs some evaluation data.
+
+#### Evaluation matrix
+
 The most relevant one is the Confusion Matrix. 
 N.B. due to dataset limitations, I simulated the test dataset using some of the training and validation data that were not used for the training.
 If in the configuration file the parameter "use_validation_confusion_matrix" is set to true, then the evaluation pipeline will create a
@@ -55,6 +58,10 @@ Therefore, the confusion matrix will be read from the json eval file with the fo
 [E]  20  21  22
 
 Where the rows represent the true labels of the images, and the colums represent the predictions for those images.
+
+#### Debug plots
+
+There is an additional set of plots produced with a debug feature (currently included by default in the pipeline) that plots some of the galaxies in the training dataset and produces plots comparing prediction and true label, for a quick and order-of-magnitude estimate of the model accuracy.
 
 ## CLIENT
 
