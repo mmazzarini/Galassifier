@@ -53,7 +53,7 @@ The classification of galaxies is set as an array of labels: ["Uncertain", "Spir
 
 Therefore, the confusion matrix will be read from the json eval file with the following fashion:
 
-    [U] [S] [E]
+... [U] [S] [E]
 [U]  00  01  02
 [S]  10  11  12
 [E]  20  21  22
