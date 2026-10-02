@@ -1,11 +1,11 @@
 # GALASSIFIER
 
-Galassifier is a RESTful application and Machine Learning Engineering (MLE) project.
-The core of the project is connecting together the process of training of a Convolutional Neural Network (CNN) on galactic images, a
-backend inference server, and a simple client interface. 
-Server and client interact by means of REST APIs.
+Galassifier is a RESTful application and Machine Learning (ML) engineering project.
+The project connects a Convolutional Neural Network (CNN) training pipeline, a Django inference backend/Server, and a vue.js Client,.
+Server and Client communicate through REST APIs. 
 
 ## SERVER
+
 The server is a Python/Django application. 
 It loads the current CNN and employs it for local inference on images of galaxies.
 It exposes a REST API to communicate with the client.
@@ -32,14 +32,15 @@ The model consists of:
 - Conv2D and MaxPooling layers
 - early stopping regularization
 
-### MLE features
+### ML Engineering features
+
 - python modules returning a variety of methods: load/save files, model building, training, evaluation, and artifact generation
 - config json file to properly tweak a number of parameters to configure the dataset reduction phase, the training and the model properties, as well as the evaluation phase
-- main.py module containing the main orchestrator of the whole MLE pipeline.
+- main.py module containing the main orchestrator of the whole ML engineering pipeline.
 
 ### Evaluation and artifacts
-In order to estimate the impact of the choice of parameters and configuration data on the final model quality, as well as the architectural decisions on the MLE pipeline, the MLE system
-outputs some evaluation data.
+
+In order to estimate the impact of the choice of parameters and configuration data on the final model quality, as well as the architectural decisions on the ML engineering pipeline, the system outputs some evaluation data.
 
 #### Evaluation matrix
 
