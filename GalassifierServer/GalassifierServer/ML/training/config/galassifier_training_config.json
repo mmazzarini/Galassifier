@@ -50,7 +50,8 @@
         "base_shift" : 5,
         "test_size" : 200,
         "use_validation_confusion_matrix" : true,
-        "val_confusion_matrix_file_path" : "/content/drive/MyDrive/GalaxyClassificationModels/galassifier_model_val_confusion_matrix.json"
+        "val_confusion_matrix_file_path" : "/content/drive/MyDrive/GalaxyClassificationModels/galassifier_model_val_confusion_matrix.json",
+        "use_debug_plots" : true
     },
 
     "extensions" : {

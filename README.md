@@ -52,7 +52,7 @@ Current artifacts include:
 
 The main evaluation artifact is the validation confusion matrix. 
 At the current stage, the project reports validation-set evaluation. A fully independent test set is planned as future work.
-If the "use_validation_confusion_matrix" parameter is set to true in the configuration file, the evaluation pipeline creates a
+If the `use_validation_confusion_matrix` parameter is set to true in the configuration file, the evaluation pipeline creates a
 validation confusion matrix artifact in the JSON file.
 
 The classification of galaxies is set as an array of labels: ["Uncertain", "Spiral", "Elliptical"].
@@ -67,11 +67,11 @@ True U     00   01   02
      E     20   21   22
 ```
 
-Rows represent true labels, while columns represent predicted labels. The entries 00, 01,..., 22 represent positions in the matrix.
+Rows represent true labels, while columns represent predicted labels. The entries 00, 01, ..., 22 represent positions in the matrix.
 
 #### Debug plots
 
-There is an additional set of plots produced with a debug feature (currently included by default in the pipeline) that plots some of the galaxies in the training dataset and produces plots comparing prediction and true label, for a qualitative inspection of predictions and failure cases.
+The pipeline also includes a debug plot routine (currently included by default in the pipeline). This routine takes some of the galaxies in the training dataset and produces plots comparing predictions and true labels, for a qualitative inspection of predictions and failure cases.
 
 ## CLIENT
 
