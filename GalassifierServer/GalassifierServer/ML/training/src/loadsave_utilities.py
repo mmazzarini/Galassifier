@@ -19,16 +19,6 @@ def save_dataset_to_drive(in_loadsave_path, in_loaded_train_images, in_loaded_tr
              val_images=in_loaded_val_images,
              val_labels=in_loaded_val_labels)
     
-
-def get_model_save_path():
-    model_save_path = config_data["extensions"]["model_save_path"]
-    model_save_path += config_data["extensions"]["model_save_name"]
-    model_save_path += "_"
-    model_save_path += config_data["extensions"]["model_version_number"]
-    model_save_path += "."
-    model_save_path += config_data["extensions"]["model_save_extension"]
-    return model_save_path
-
 #simple valdation evaluation filesave (JSON format for portability)
 def save_validation_evaluation(file_path, evaluation_data):
 

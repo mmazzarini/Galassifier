@@ -16,7 +16,6 @@ def Galaxy_Classifier():
     TRAIN_MODEL = config_data["training_stages"]["train_model"]
     EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
     RELEASE_CONTRACT = config_data["contract"]["release_contract"]
-    VAL_EVALUATION_FILE_PATH = config_data["evaluation"]["val_evaluation_file_path"]
     dataset = []
 
     if(LOAD_REMOTE_DATASET == True):
@@ -45,11 +44,17 @@ def Galaxy_Classifier():
                                 dataset["val_images"], dataset["val_labels"])
 
             if("evaluation_validation" in eval_result and eval_result["evaluation_validation"] is not None):
-                lsutils.save_validation_evaluation(VAL_EVALUATION_FILE_PATH, eval_result)
+                VAL_EVALUATION_FILE_PATH = config_data["run"]["run_filepath"]
+                VAL_EVALUATION_FILE_NAME = config_data["run"]["run_validation_evaluation_name"]
+                VAL_NUMBER = config_data["run"]["run_version_number"]
+                VAL_EXTENSION = config_data["run"]["run_file_extension"]
+                save_file_name = VAL_EVALUATION_FILE_PATH + "/" + VAL_EVALUATION_FILE_NAME + str(VAL_NUMBER) + "." + VAL_EXTENSION
+                lsutils.save_validation_evaluation(save_file_name, eval_result)
 
         if(RELEASE_CONTRACT == True):
             contract.release_model_contract(history)
             contract.release_model_metrics(history)
+
 
 # MAIN EXECUTION BLOCK!!
 

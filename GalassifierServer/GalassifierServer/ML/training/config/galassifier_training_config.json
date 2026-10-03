@@ -56,15 +56,12 @@
 
     "extensions" : {
         "model_save_path" : "/content/drive/MyDrive/GalaxyClassificationModels/",
-        "model_save_name" : "galassifier_model",
-        "model_version_number" : "v1",
+        "model_save_name" : "galassifier_model_v",
+        "model_version_number" : 1,
         "model_save_extension" : "h5"
     },
 
     "contract" :{
-        "model_contract_path" : "/content/drive/MyDrive/GalaxyClassificationModels/",
-        "model_contract_name" : "galassifier_model_contract",
-        "model_contract_extension" : "json",
         "release_contract" : true
     },
 
@@ -79,5 +76,18 @@
         "save_model" : true, 
         "promote_model" : false,
         "notes" : "Save model is now not used, leaving it only for legacy purposes"
+    },
+
+    "run" :
+    {
+        "run_filepath" : "/content/drive/MyDrive/GalaxyClassificationModels/galassifier_training_run_v",
+        "run_version_number" : 1,
+        "run_file_extension" : "json",
+        "run_model_name" : "galassifier_model_v",
+        "run_checkpoint_name" : "galassifier_model_checkpoint_v",
+        "run_model_contract_name" : "galassifier_model_contract_v",
+        "run_validation_evaluation_name" : "galassifier_model_val_evaluation_v",
+        "run_model_metrics_name" : "galassifier_model_metrics_v",
+        "notes" : "This is the file that will be used to save the run information, including the model version number, the training stages, and the evaluation results."
     }
 }

@@ -4,9 +4,10 @@ import config
 def release_model_contract(history):
 
     config_data = config.load_project_config()
-    CONTRACT_FILE_PATH = config_data["contract"]["model_contract_path"]
-    CONTRACT_FILE_NAME = config_data["contract"]["model_contract_name"]
-    CONTRACT_FILE_EXTENSION = config_data["contract"]["model_contract_extension"]
+    CONTRACT_FILE_PATH = config_data["run"]["run_filepath"]
+    CONTRACT_FILE_NAME = config_data["run"]["run_model_contract_name"]
+    CONTRACT_FILE_VERSION = config_data["run"]["run_version_number"]
+    CONTRACT_FILE_EXTENSION = config_data["run"]["run_file_extension"]
 
     if history is None:
         print("No training history available. Cannot release model contract.")
@@ -18,15 +19,15 @@ def release_model_contract(history):
 
     contract_dict = {
 
-        "model_file" : config_data["extensions"]["model_save_name"] + "_" + config_data["extensions"]["model_version_number"] + "." + config_data["extensions"]["model_save_extension"],
-        "version": config_data["extensions"]["model_version_number"],
+        "model_file" : CONTRACT_FILE_NAME + CONTRACT_FILE_VERSION + "." + CONTRACT_FILE_EXTENSION,
+        "version": config_data["run"]["run_version_number"],
         #now some stuff about the model itself, architecture, params etc
         "model_input_size" : config_data["model"]["input_image_size"],
         "model_rgb_input" : config_data["model"]["use_rgb_input"],
         "classification" : config_data["classification"]
     }
 
-    contract_file_path = f"{CONTRACT_FILE_PATH}/{CONTRACT_FILE_NAME}" + "_contract" + f".{CONTRACT_FILE_EXTENSION}"
+    contract_file_path = f"{CONTRACT_FILE_PATH}/{CONTRACT_FILE_NAME}" + str(CONTRACT_FILE_VERSION) + "_contract" + f".{CONTRACT_FILE_EXTENSION}"
 
     with open(contract_file_path, "w") as f:
         json.dump(contract_dict, f)
@@ -36,9 +37,10 @@ def release_model_contract(history):
 def release_model_metrics(history):
 
     config_data = config.load_project_config()
-    METRICS_FILE_PATH = config_data["contract"]["model_contract_path"]
-    METRICS_FILE_NAME = config_data["contract"]["model_contract_name"]
-    METRICS_FILE_EXTENSION = config_data["contract"]["model_contract_extension"]
+    METRICS_FILE_PATH = config_data["contract"]["run_filepath"]
+    METRICS_FILE_NAME = config_data["contract"]["run_model_metrics_name"]
+    METRICS_FILE_VERSION = config_data["run"]["run_version_number"]
+    METRICS_FILE_EXTENSION = config_data["contract"]["run_file_extension"]
 
     if history is None:
         print("No training history available. Cannot release model contract.")
@@ -66,7 +68,7 @@ def release_model_metrics(history):
 
     }
 
-    metrics_file_path = f"{METRICS_FILE_PATH}/{METRICS_FILE_NAME}" + "_metrics" + f".{METRICS_FILE_EXTENSION}"
+    metrics_file_path = f"{METRICS_FILE_PATH}/{METRICS_FILE_NAME}" + str(METRICS_FILE_VERSION) + "_metrics" + f".{METRICS_FILE_EXTENSION}"
 
     with open(metrics_file_path, "w") as f:
         json.dump(metrics_dict, f)
