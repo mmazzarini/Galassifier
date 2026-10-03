@@ -29,12 +29,18 @@ def get_model_save_path():
     model_save_path += config_data["extensions"]["model_save_extension"]
     return model_save_path
 
-#simple confusion matrix filesave (json format for portability)
-def save_confusion_matrix(file_path, confusion_matrix):
+#simple valdation evaluation filesave (JSON format for portability)
+def save_validation_evaluation(file_path, evaluation_data):
 
     data = {
         "classes" : config_data["classification"]["classes"],
-        "val_confusion_matrix" : confusion_matrix.tolist(),
+        
+        "val_confusion_matrix" : evaluation_data["evaluation_validation"]["matrix"].tolist(),
+        "val_correct_predictions" : evaluation_data["evaluation_validation"]["val_correct_predictions"],
+        "val_predictions_accuracy" : evaluation_data["evaluation_validation"]["val_predictions_accuracy"],
+        "val_correct_predictions_per_class" : evaluation_data["evaluation_validation"]["val_correct_predictions_per_class"].tolist(),
+        "val_accuracy_per_class" : evaluation_data["evaluation_validation"]["val_accuracy_per_class"].tolist(),
+        "val_num_samples" : evaluation_data["evaluation_validation"]["num_samples"],
         "rows" : "true",
         "cols" : "preds"
     }

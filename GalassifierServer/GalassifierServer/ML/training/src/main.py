@@ -16,8 +16,7 @@ def Galaxy_Classifier():
     TRAIN_MODEL = config_data["training_stages"]["train_model"]
     EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
     RELEASE_CONTRACT = config_data["contract"]["release_contract"]
-    USE_VALIDATION_CONFUSION_MATRIX = config_data["evaluation"]["use_validation_confusion_matrix"]
-    VAL_CONFUSION_MATRIX_FILE_PATH = config_data["evaluation"]["val_confusion_matrix_file_path"]
+    VAL_EVALUATION_FILE_PATH = config_data["evaluation"]["val_evaluation_file_path"]
     dataset = []
 
     if(LOAD_REMOTE_DATASET == True):
@@ -45,8 +44,8 @@ def Galaxy_Classifier():
             eval_result = eval_galaxy.evaluate_model(trained_model, dataset["train_images"], dataset["train_labels"],
                                 dataset["val_images"], dataset["val_labels"])
 
-            if("val_confusion_matrix" in eval_result and eval_result["val_confusion_matrix"] is not None):
-                lsutils.save_confusion_matrix(VAL_CONFUSION_MATRIX_FILE_PATH, eval_result["val_confusion_matrix"])
+            if("evaluation_validation" in eval_result and eval_result["evaluation_validation"] is not None):
+                lsutils.save_validation_evaluation(VAL_EVALUATION_FILE_PATH, eval_result)
 
         if(RELEASE_CONTRACT == True):
             contract.release_model_contract(history)
