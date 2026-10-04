@@ -1,4 +1,6 @@
 #generic imports
+from os import path
+
 import numpy as np
 from tensorflow import keras
 import os
@@ -78,11 +80,13 @@ def train_model(model, loaded_train_images, loaded_train_labels, loaded_val_imag
             val_dataset = val_dataset.batch(batch_size)
             print(val_dataset.cardinality())
 
-        modelfile_dir = config_data["run"]["run_filepath"]
+        modelfile_dir = config_data["storage"]["storage_root"] + config_data["storage"]["model_root"] + config_data["run"]["run_foldername"] +  str(config_data["run"]["run_version_number"])
         modelfile_prefix = os.path.join(modelfile_dir, config_data["run"]["run_checkpoint_name"])
         modelfile_version = config_data["run"]["run_version_number"]
         modelfile_extension = config_data["run"]["run_model_file_extension"]
-        modelfile_filename = modelfile_prefix + str(modelfile_version) + "." + modelfile_extension
+        modelfile_filename = modelfile_prefix + str(modelfile_version) + "_epoch_{epoch:02d}" + "_val_loss_{val_loss:.4f}"+"." + modelfile_extension
+        
+        os.makedirs(modelfile_dir, exist_ok=True)
 
         model_save_callback = keras.callbacks.ModelCheckpoint(modelfile_filename, save_best_only=True, save_freq=1000, monitor="val_loss")
         employed_callbacks = [model_save_callback]

@@ -37,8 +37,8 @@ def load_remote_dataset():
     #catalog: lets get galaxies
     #using https://data.galaxyzoo.org/?_ga=2.107268992.360088703.1763919279-669604038.1763591364
     #see also https://zenodo.org/records/3565489#.Y3vFKS-l0eY for the images
-    galaxies_CSV_filename = 'gz2_hart16.csv.gz'
-    galaxies_CSV_file_path = 'https://gz2hart.s3.amazonaws.com/gz2_hart16.csv.gz'
+    galaxies_CSV_filename = config_data["data"]["dataset_csv_filename"]
+    galaxies_CSV_file_path = config_data["data"]["dataset_csv_url"]
     galaxies_CSV_zip_file = keras.utils.get_file(galaxies_CSV_filename, galaxies_CSV_file_path)
     print(galaxies_CSV_zip_file)
     # Read the CSV file from the zip archive directly
@@ -46,19 +46,19 @@ def load_remote_dataset():
     galaxies_datatable = create_galaxy_table(galaxies_file)
 
     galaxies_images_file = []
-    galaxies_image_filename = 'images_gz2_v2.zip'
+    galaxies_image_filename = config_data["data"]["dataset_images_filename"]
+    dataset_path = config_data["storage"]["storage_root"] + config_data["storage"]["dataset_root"]
     #here we load and read the images
     if(MOUNT_REMOTE_IMAGES == True):
-        galaxies_images_file_path = 'https://zenodo.org/records/3565489/files/images_gz2.zip'
+        galaxies_images_file_path = config_data["data"]["dataset_images_url"]
         galaxies_images_file = keras.utils.get_file(galaxies_image_filename, galaxies_images_file_path)
         print(galaxies_images_file)
         #copy images to drive
-        
-        shutil.copy(galaxies_images_file, '/content/drive/MyDrive/Galaxies_Zoo')
+        shutil.copy(galaxies_images_file, dataset_path)
         galaxies_images_file = keras.utils.get_file(galaxies_image_filename, galaxies_images_file_path)
         print(galaxies_images_file)
     else:
-        galaxies_images_file = os.path.join('/content/drive/MyDrive/Galaxies_Zoo', galaxies_image_filename)
+        galaxies_images_file = os.path.join(dataset_path, galaxies_image_filename)
         print(galaxies_images_file)
         if not os.path.exists(galaxies_images_file):
             print("Warning! The file does not exist in drive directory!")
@@ -90,8 +90,8 @@ def load_remote_dataset():
 
         #print(extract_dir)
 
-        galaxies_CSV_map_filename = 'gz2_filename_mapping.csv'
-        galaxies_CSV_map_file_path = 'https://zenodo.org/records/3565489/files/gz2_filename_mapping.csv'
+        galaxies_CSV_map_filename = config_data["data"]["dataset_mapping_filename"]
+        galaxies_CSV_map_file_path = config_data["data"]["dataset_mapping_url"]
         galaxies_CSV_map_file = keras.utils.get_file(galaxies_CSV_map_filename, galaxies_CSV_map_file_path)
         print(galaxies_CSV_map_file)
         # Read the CSV file from the zip archive directly

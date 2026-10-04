@@ -7,6 +7,12 @@
         "code_additional_notes" : "The legacy code is the code that was used in the previous version of the project. It is kept for reference and comparison purposes. The legacy code is not used in the current version of the project, but can be actiavted by setting this flag to true."
     },
 
+    "storage": {
+     "storage_root": "/content/drive/MyDrive/",
+     "model_root": "GalaxyClassificationModels/",
+     "dataset_root": "Galaxies_Zoo/"
+    },
+
     "model" : {
         "input_image_size" : [28, 28],
         "kernel_size_levels" : [3, 3],
@@ -27,7 +33,13 @@
     },
 
     "data" : {
-        "dataset_path" : "/content/drive/MyDrive/Galaxies_Zoo/galaxy_dataset.npz",
+        "dataset_file_path" : "galaxy_dataset.npz",
+        "dataset_file_url" : "https://zenodo.org/record/3565489/files/galaxy_dataset.npz",
+        "dataset_csv_url" : "https://gz2hart.s3.amazonaws.com/gz2_hart16.csv.gz",
+        "dataset_csv_filename" : "gz2_hart16.csv.gz",
+        "dataset_images_filename" : "images_gz2_v2.zip",
+        "dataset_mapping_filename" : "gz2_filename_mapping.csv",
+        "dataset_mapping_url" : "https://zenodo.org/records/3565489/files/gz2_filename_mapping.csv",
         "use_validation_set" : true,
         "dataset_split_ratio" : 0.7,
         "dataset_website_source" : "https://www.galaxyzoo.org/",
@@ -50,7 +62,6 @@
         "base_shift" : 5,
         "test_size" : 200,
         "use_validation_confusion_matrix" : true,
-        "val_evaluation_file_path" : "/content/drive/MyDrive/GalaxyClassificationModels/galassifier_model_val_evaluation.json",
         "use_debug_plots" : true
     },
 
@@ -73,7 +84,7 @@
 
     "run" :
     {
-        "run_filepath" : "/content/drive/MyDrive/GalaxyClassificationModels/galassifier_training_run_v",
+        "run_foldername" : "galassifier_training_run_v",
         "run_version_number" : 1,
         "run_artifact_extension" : "json",
         "run_model_file_extension" : "h5",

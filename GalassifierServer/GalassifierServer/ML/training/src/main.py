@@ -16,7 +16,7 @@ def Galaxy_Classifier():
     TRAIN_MODEL = config_data["training_stages"]["train_model"]
     EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
     RELEASE_CONTRACT = config_data["contract"]["release_contract"]
-    DATASET_PATH = config_data["data"]["dataset_path"]
+    DATASET_PATH = config_data["storage"]["storage_root"] + "/" + config_data["storage"]["dataset_root"] + "/" + config_data["data"]["dataset_file_path"]
     dataset = []
 
     if(LOAD_REMOTE_DATASET == True):

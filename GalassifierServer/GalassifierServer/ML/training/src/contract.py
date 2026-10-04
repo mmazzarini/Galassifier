@@ -4,9 +4,11 @@ import config
 def release_model_contract(history):
 
     config_data = config.load_project_config()
-    CONTRACT_FILE_PATH = config_data["run"]["run_filepath"]
-    CONTRACT_FILE_NAME = config_data["run"]["run_model_contract_name"]
+    models_root = config_data["storage"]["storage_root"] + config_data["storage"]["model_root"]
+    CONTRACT_FILE_PATH = models_root + config_data["run"]["run_model_contract_name"]
     CONTRACT_FILE_VERSION = config_data["run"]["run_version_number"]
+    CONTRACT_FILE_PATH += str(CONTRACT_FILE_VERSION)
+    CONTRACT_FILE_NAME = config_data["run"]["run_model_contract_name"]
     CONTRACT_FILE_EXTENSION = config_data["run"]["run_artifact_extension"]
 
     if history is None:
@@ -19,7 +21,7 @@ def release_model_contract(history):
 
     contract_dict = {
 
-        "model_file" : CONTRACT_FILE_NAME + CONTRACT_FILE_VERSION + "." + CONTRACT_FILE_EXTENSION,
+        "model_file" : CONTRACT_FILE_NAME + str(CONTRACT_FILE_VERSION) + "." + CONTRACT_FILE_EXTENSION,
         "version": config_data["run"]["run_version_number"],
         #now some stuff about the model itself, architecture, params etc
         "model_input_size" : config_data["model"]["input_image_size"],
@@ -37,9 +39,11 @@ def release_model_contract(history):
 def release_model_metrics(history):
 
     config_data = config.load_project_config()
-    METRICS_FILE_PATH = config_data["run"]["run_filepath"]
-    METRICS_FILE_NAME = config_data["run"]["run_model_metrics_name"]
+    models_root = config_data["storage"]["storage_root"] + config_data["storage"]["model_root"]
+    METRICS_FILE_PATH = models_root + config_data["run"]["run_model_metrics_name"]
     METRICS_FILE_VERSION = config_data["run"]["run_version_number"]
+    METRICS_FILE_PATH += str(METRICS_FILE_VERSION)
+    METRICS_FILE_NAME = config_data["run"]["run_model_metrics_name"]
     METRICS_FILE_EXTENSION = config_data["run"]["run_artifact_extension"]
 
     if history is None:
