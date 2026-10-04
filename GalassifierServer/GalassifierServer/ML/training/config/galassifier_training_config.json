@@ -27,7 +27,7 @@
     },
 
     "data" : {
-        "dataset_path" : "",
+        "dataset_path" : "/content/drive/MyDrive/Galaxies_Zoo/galaxy_dataset.npz",
         "use_validation_set" : true,
         "dataset_split_ratio" : 0.7,
         "dataset_website_source" : "https://www.galaxyzoo.org/",
@@ -54,13 +54,6 @@
         "use_debug_plots" : true
     },
 
-    "extensions" : {
-        "model_save_path" : "/content/drive/MyDrive/GalaxyClassificationModels/",
-        "model_save_name" : "galassifier_model_v",
-        "model_version_number" : 1,
-        "model_save_extension" : "h5"
-    },
-
     "contract" :{
         "release_contract" : true
     },
@@ -82,7 +75,8 @@
     {
         "run_filepath" : "/content/drive/MyDrive/GalaxyClassificationModels/galassifier_training_run_v",
         "run_version_number" : 1,
-        "run_file_extension" : "json",
+        "run_artifact_extension" : "json",
+        "run_model_file_extension" : "h5",
         "run_model_name" : "galassifier_model_v",
         "run_checkpoint_name" : "galassifier_model_checkpoint_v",
         "run_model_contract_name" : "galassifier_model_contract_v",

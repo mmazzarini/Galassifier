@@ -16,19 +16,20 @@ def Galaxy_Classifier():
     TRAIN_MODEL = config_data["training_stages"]["train_model"]
     EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
     RELEASE_CONTRACT = config_data["contract"]["release_contract"]
+    DATASET_PATH = config_data["data"]["dataset_path"]
     dataset = []
 
     if(LOAD_REMOTE_DATASET == True):
         galaxies_datatable_np, galaxy_map_np = galaxy_data.load_remote_dataset()
         dataset = galaxy_data.load_dataset_from_tables(galaxies_datatable_np, galaxy_map_np)
-        lsutils.save_dataset_to_drive('/content/drive/MyDrive/Galaxies_Zoo/galaxy_dataset.npz', 
+        lsutils.save_dataset_to_drive(DATASET_PATH, 
                                           dataset["train_images"],
                                           dataset["train_labels"],
                                           dataset["val_images"],
                                           dataset["val_labels"]
                                       )
     else:
-        dataset = lsutils.load_dataset_from_drive('/content/drive/MyDrive/Galaxies_Zoo/galaxy_dataset.npz')
+        dataset = lsutils.load_dataset_from_drive(DATASET_PATH)
 
     model = train_galaxy.build_model()
 
@@ -47,7 +48,7 @@ def Galaxy_Classifier():
                 VAL_EVALUATION_FILE_PATH = config_data["run"]["run_filepath"]
                 VAL_EVALUATION_FILE_NAME = config_data["run"]["run_validation_evaluation_name"]
                 VAL_NUMBER = config_data["run"]["run_version_number"]
-                VAL_EXTENSION = config_data["run"]["run_file_extension"]
+                VAL_EXTENSION = config_data["run"]["run_artifact_extension"]
                 save_file_name = VAL_EVALUATION_FILE_PATH + "/" + VAL_EVALUATION_FILE_NAME + str(VAL_NUMBER) + "." + VAL_EXTENSION
                 lsutils.save_validation_evaluation(save_file_name, eval_result)
 

@@ -7,7 +7,7 @@ def release_model_contract(history):
     CONTRACT_FILE_PATH = config_data["run"]["run_filepath"]
     CONTRACT_FILE_NAME = config_data["run"]["run_model_contract_name"]
     CONTRACT_FILE_VERSION = config_data["run"]["run_version_number"]
-    CONTRACT_FILE_EXTENSION = config_data["run"]["run_file_extension"]
+    CONTRACT_FILE_EXTENSION = config_data["run"]["run_artifact_extension"]
 
     if history is None:
         print("No training history available. Cannot release model contract.")
@@ -37,10 +37,10 @@ def release_model_contract(history):
 def release_model_metrics(history):
 
     config_data = config.load_project_config()
-    METRICS_FILE_PATH = config_data["contract"]["run_filepath"]
-    METRICS_FILE_NAME = config_data["contract"]["run_model_metrics_name"]
+    METRICS_FILE_PATH = config_data["run"]["run_filepath"]
+    METRICS_FILE_NAME = config_data["run"]["run_model_metrics_name"]
     METRICS_FILE_VERSION = config_data["run"]["run_version_number"]
-    METRICS_FILE_EXTENSION = config_data["contract"]["run_file_extension"]
+    METRICS_FILE_EXTENSION = config_data["run"]["run_artifact_extension"]
 
     if history is None:
         print("No training history available. Cannot release model contract.")

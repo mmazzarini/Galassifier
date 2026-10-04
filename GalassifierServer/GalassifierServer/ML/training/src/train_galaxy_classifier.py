@@ -81,7 +81,7 @@ def train_model(model, loaded_train_images, loaded_train_labels, loaded_val_imag
         modelfile_dir = config_data["run"]["run_filepath"]
         modelfile_prefix = os.path.join(modelfile_dir, config_data["run"]["run_checkpoint_name"])
         modelfile_version = config_data["run"]["run_version_number"]
-        modelfile_extension = config_data["run"]["run_file_extension"]
+        modelfile_extension = config_data["run"]["run_model_file_extension"]
         modelfile_filename = modelfile_prefix + str(modelfile_version) + "." + modelfile_extension
 
         model_save_callback = keras.callbacks.ModelCheckpoint(modelfile_filename, save_best_only=True, save_freq=1000, monitor="val_loss")
