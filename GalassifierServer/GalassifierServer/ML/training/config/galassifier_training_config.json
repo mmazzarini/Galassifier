@@ -38,6 +38,7 @@
         "dataset_csv_url" : "https://gz2hart.s3.amazonaws.com/gz2_hart16.csv.gz",
         "dataset_csv_filename" : "gz2_hart16.csv.gz",
         "dataset_images_filename" : "images_gz2_v2.zip",
+        "dataset_images_url" : "https://zenodo.org/record/3565489/files/images_gz2_v2.zip",
         "dataset_mapping_filename" : "gz2_filename_mapping.csv",
         "dataset_mapping_url" : "https://zenodo.org/records/3565489/files/gz2_filename_mapping.csv",
         "use_validation_set" : true,

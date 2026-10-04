@@ -16,7 +16,7 @@ def Galaxy_Classifier():
     TRAIN_MODEL = config_data["training_stages"]["train_model"]
     EVALUATE_MODEL = config_data["training_stages"]["evaluate_model"]
     RELEASE_CONTRACT = config_data["contract"]["release_contract"]
-    DATASET_PATH = config_data["storage"]["storage_root"] + "/" + config_data["storage"]["dataset_root"] + "/" + config_data["data"]["dataset_file_path"]
+    DATASET_PATH = config_data["storage"]["storage_root"] + config_data["storage"]["dataset_root"] + config_data["data"]["dataset_file_path"]
     dataset = []
 
     if(LOAD_REMOTE_DATASET == True):
@@ -45,7 +45,7 @@ def Galaxy_Classifier():
                                 dataset["val_images"], dataset["val_labels"])
 
             if("evaluation_validation" in eval_result and eval_result["evaluation_validation"] is not None):
-                VAL_EVALUATION_FILE_PATH = config_data["run"]["run_filepath"]
+                VAL_EVALUATION_FILE_PATH = config_data["storage"]["storage_root"] + config_data["storage"]["model_root"] + config_data["run"]["run_foldername"] + str(config_data["run"]["run_version_number"])
                 VAL_EVALUATION_FILE_NAME = config_data["run"]["run_validation_evaluation_name"]
                 VAL_NUMBER = config_data["run"]["run_version_number"]
                 VAL_EXTENSION = config_data["run"]["run_artifact_extension"]

@@ -2,7 +2,7 @@ import json
 
 config_data = []
 
-CONFIG_FILE_PATH = 'GalassifierServer/GalassifierServer/ML/training/Config/'
+CONFIG_FILE_PATH = 'GalassifierServer/GalassifierServer/ML/training/config/'
 CONFIG_FILE_NAME = 'galassifier_training_config'
 CONFIG_FILE_EXTENSION = '.json'
 

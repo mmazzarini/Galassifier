@@ -5,7 +5,7 @@ def release_model_contract(history):
 
     config_data = config.load_project_config()
     models_root = config_data["storage"]["storage_root"] + config_data["storage"]["model_root"]
-    CONTRACT_FILE_PATH = models_root + config_data["run"]["run_model_contract_name"]
+    CONTRACT_FILE_PATH = models_root + config_data["run"]["run_foldername"]
     CONTRACT_FILE_VERSION = config_data["run"]["run_version_number"]
     CONTRACT_FILE_PATH += str(CONTRACT_FILE_VERSION)
     CONTRACT_FILE_NAME = config_data["run"]["run_model_contract_name"]
@@ -20,8 +20,6 @@ def release_model_contract(history):
     model_history = history.history
 
     contract_dict = {
-
-        "model_file" : CONTRACT_FILE_NAME + str(CONTRACT_FILE_VERSION) + "." + CONTRACT_FILE_EXTENSION,
         "version": config_data["run"]["run_version_number"],
         #now some stuff about the model itself, architecture, params etc
         "model_input_size" : config_data["model"]["input_image_size"],
@@ -29,7 +27,7 @@ def release_model_contract(history):
         "classification" : config_data["classification"]
     }
 
-    contract_file_path = f"{CONTRACT_FILE_PATH}/{CONTRACT_FILE_NAME}" + str(CONTRACT_FILE_VERSION) + "_contract" + f".{CONTRACT_FILE_EXTENSION}"
+    contract_file_path = f"{CONTRACT_FILE_PATH}/{CONTRACT_FILE_NAME}" + str(CONTRACT_FILE_VERSION) + f".{CONTRACT_FILE_EXTENSION}"
 
     with open(contract_file_path, "w") as f:
         json.dump(contract_dict, f)
@@ -40,7 +38,7 @@ def release_model_metrics(history):
 
     config_data = config.load_project_config()
     models_root = config_data["storage"]["storage_root"] + config_data["storage"]["model_root"]
-    METRICS_FILE_PATH = models_root + config_data["run"]["run_model_metrics_name"]
+    METRICS_FILE_PATH = models_root + config_data["run"]["run_foldername"]
     METRICS_FILE_VERSION = config_data["run"]["run_version_number"]
     METRICS_FILE_PATH += str(METRICS_FILE_VERSION)
     METRICS_FILE_NAME = config_data["run"]["run_model_metrics_name"]
@@ -72,7 +70,7 @@ def release_model_metrics(history):
 
     }
 
-    metrics_file_path = f"{METRICS_FILE_PATH}/{METRICS_FILE_NAME}" + str(METRICS_FILE_VERSION) + "_metrics" + f".{METRICS_FILE_EXTENSION}"
+    metrics_file_path = f"{METRICS_FILE_PATH}/{METRICS_FILE_NAME}" + str(METRICS_FILE_VERSION) + f".{METRICS_FILE_EXTENSION}"
 
     with open(metrics_file_path, "w") as f:
         json.dump(metrics_dict, f)
