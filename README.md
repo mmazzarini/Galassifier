@@ -22,8 +22,7 @@ Main responsibilities:
 ## MACHINE LEARNING
 
 The core feature of Galassifier is a CNN trained to classify galaxy images.
-The model was trained with TensorFlow/Keras, using a dataset of galaxies selected from
-[Galaxy Zoo](https://data.galaxyzoo.org/?_ga=2.107268992.360088703.1763919279-669604038.1763591364)
+The model was trained with TensorFlow/Keras, using a dataset of galaxies selected from GalaxyZoo project (see References and Disclaimer below).
 
 ### Current features:
 
@@ -103,3 +102,16 @@ Then open the client in the browser and follow the app UI flow to upload galaxy 
 - Improve the ML model with ablation tests
 - Complete the reproducible ML training and evaluation pipeline
 - Add tests for REST API endpoints
+
+## REFERENCES AND DISCLAIMER
+
+I am neither the author nor the owner of the Galaxy Zoo galaxies dataset used for this project. 
+I used the data from Galaxy Zoo Project as follows:
+
+### Galaxy Zoo Project Reference
+* Lintott et al. 2008, MNRAS, 389, 1179 ([ADS Link](https://adsabs.harvard.edu/abs/2008MNRAS.389.1179L))
+
+### Galaxy Zoo Data Reference
+* Lintott et al. 2011, MNRAS, 410, 166 ([ADS Link](https://adsabs.harvard.edu/abs/2011MNRAS.410..166L))
+
+Data courtesy of Galaxy Zoo and the Sloan Digital Sky Survey (SDSS). Click [here](https://data.galaxyzoo.org) to visit the Galaxy Zoo website.
